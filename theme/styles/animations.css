@@ -1,0 +1,208 @@
+/* === Gradient Mesh Background === */
+@keyframes gp-mesh-drift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 100%;
+  }
+}
+
+/* Apply mesh + grid to ALL slides globally */
+.slidev-layout {
+  position: relative;
+  overflow: hidden;
+}
+
+.slidev-layout::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: gp-mesh-drift 20s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.slidev-layout::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(139, 148, 158, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 148, 158, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.slidev-layout > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep explicit classes for backwards compat but they're now redundant */
+.gp-mesh-bg::before,
+.gp-grid-overlay::after {
+  display: none;
+}
+
+/* === Bottom accent line on every slide === */
+.slidev-layout {
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gp-accent), var(--gp-accent-secondary), transparent) 1;
+}
+
+/* === v-click animation overrides === */
+.slidev-vclick-target {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slidev-vclick-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(2px);
+}
+
+.slidev-vclick-current,
+.slidev-vclick-prior {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.slidev-vclick-prior {
+  opacity: 0.75;
+}
+
+/* === Headline reveal === */
+@keyframes gp-headline-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.gp-headline-reveal {
+  animation: gp-headline-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* === Underline draw === */
+@keyframes gp-underline-draw {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.gp-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.gp-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gp-accent), var(--gp-accent-secondary));
+  animation: gp-underline-draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+/* === Fade up for general elements === */
+@keyframes gp-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gp-fade-up {
+  animation: gp-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* === Code block glow on enter === */
+@keyframes gp-code-glow {
+  0% {
+    border-color: var(--gp-border);
+    box-shadow: none;
+  }
+  50% {
+    border-color: var(--gp-accent);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
+  }
+  100% {
+    border-color: var(--gp-border);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.05);
+  }
+}
+
+.slidev-layout pre {
+  animation: gp-code-glow 2s ease 0.3s both;
+}
+
+/* === Gradient text utility === */
+.gp-gradient-text {
+  background: linear-gradient(135deg, var(--gp-accent), var(--gp-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === Slide transition overrides === */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(60px) scale(0.97);
+  filter: blur(4px);
+}
+
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-60px) scale(0.97);
+  filter: blur(4px);
+}
+
+/* === Staggered list animations === */
+.slidev-layout li {
+  animation: gp-fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slidev-layout li:nth-child(1) { animation-delay: 0.1s; }
+.slidev-layout li:nth-child(2) { animation-delay: 0.2s; }
+.slidev-layout li:nth-child(3) { animation-delay: 0.3s; }
+.slidev-layout li:nth-child(4) { animation-delay: 0.4s; }
+.slidev-layout li:nth-child(5) { animation-delay: 0.5s; }
+.slidev-layout li:nth-child(6) { animation-delay: 0.6s; }
+
+/* === H1 entrance animation on all slides === */
+.slidev-layout h1 {
+  animation: gp-headline-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}

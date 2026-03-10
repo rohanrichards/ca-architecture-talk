@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA Media Monitoring — Architecture Infographic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0d1117;
+    --bg-surface: #161b22;
+    --bg-elevated: #1c2128;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --border: rgba(139, 148, 158, 0.2);
+    --radius: 10px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .infographic {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  /* Pipeline flow */
+  .pipeline {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .pipeline-stage {
+    flex: 1;
+    position: relative;
+    padding: 1.5rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pipeline-stage:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+
+  .pipeline-stage:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .pipeline-stage.ai-stage {
+    border-top: 3px solid var(--accent2);
+  }
+
+  .pipeline-stage:not(.ai-stage) {
+    border-top: 3px solid var(--accent);
+  }
+
+  .stage-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .stage-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent2);
+    background: rgba(124, 58, 237, 0.15);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+
+  .stage-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+
+  .arrow {
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  /* Architecture grid */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .arch-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arch-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .arch-card h3 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .service-list {
+    list-style: none;
+  }
+
+  .service-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .service-list li::before {
+    content: '▸';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .service-name {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .service-desc {
+    color: var(--text-muted);
+  }
+
+  /* AI decisions section */
+  .ai-section {
+    margin-bottom: 3rem;
+  }
+
+  .ai-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--accent2), var(--accent), transparent) 1;
+  }
+
+  .ai-decisions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .ai-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1.5rem;
+  }
+
+  .ai-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-card .task-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .model-choice {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .model-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .model-option .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .tag-proposed {
+    background: rgba(124, 58, 237, 0.2);
+    color: #a78bfa;
+  }
+
+  .tag-alternative {
+    background: rgba(139, 148, 158, 0.15);
+    color: var(--text-muted);
+  }
+
+  /* Cost comparison */
+  .cost-section {
+    margin-bottom: 2rem;
+  }
+
+  .cost-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--accent), var(--accent2), transparent) 1;
+  }
+
+  .cost-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .cost-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+
+  .cost-card.proposed {
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .cost-card.rejected {
+    opacity: 0.6;
+  }
+
+  .cost-card h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .cost-card.proposed h4 { color: var(--accent); }
+  .cost-card.rejected h4 { color: var(--text-muted); }
+
+  .cost-price {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .cost-price.low { color: #28c840; }
+  .cost-price.high { color: #ff5f57; }
+
+  .cost-detail {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    line-height: 1.6;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin-top: 1.5rem;
+  }
+
+  .phase {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .phase:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .phase:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+
+  .phase-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .phase-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+
+  .phase-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    line-height: 1.4;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding-top: 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+  <div class="infographic">
+
+    <!-- Header -->
+    <div class="header">
+      <h1>AI Media Monitoring</h1>
+      <p>Proposed AWS Architecture for Chartered Accountants — Conduct Matter Detection</p>
+    </div>
+
+    <!-- Pipeline Flow -->
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <div class="stage-number">Stage 1</div>
+        <div class="stage-title">Scrape</div>
+        <div class="stage-desc">
+          Fetch content from 20+ regulatory and news sources on schedule.
+          Lambda for public HTML, Fargate + Playwright for authenticated/JS sites.
+        </div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="pipeline-stage ai-stage">
+        <div class="stage-number">Stage 2</div>
+        <div class="stage-title">Extract</div>
+        <div class="ai-badge">AI · Claude via Bedrock</div>
+        <div class="stage-desc">
+          Extract names, actions, context, and identifying details from raw article text.
+          Textract for PDFs (ASIC Gazettes).
+        </div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="pipeline-stage ai-stage">
+        <div class="stage-number">Stage 3</div>
+        <div class="stage-title">Match</div>
+        <div class="ai-badge">AI · Claude via Bedrock</div>
+        <div class="stage-desc">
+          Fuzzy match extracted profiles against Salesforce CRM.
+          Compound reasoning: name + employer + location + role = confidence.
+        </div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="pipeline-stage ai-stage">
+        <div class="stage-number">Stage 4</div>
+        <div class="stage-title">Associate</div>
+        <div class="ai-badge">AI · Rules + LLM</div>
+        <div class="stage-desc">
+          Group findings into potential cases.
+          Rule-based first pass, LLM for ambiguous associations.
+        </div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-number">Stage 5</div>
+        <div class="stage-title">Review</div>
+        <div class="stage-desc">
+          React SPA dashboard for conduct staff.
+          Triage queue: confirm, dismiss, adjust, or split cases.
+          Full audit trail in DynamoDB.
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture Components -->
+    <div class="arch-grid">
+      <div class="arch-card">
+        <h3>Orchestration</h3>
+        <ul class="service-list">
+          <li><span><span class="service-name">EventBridge Scheduler</span> — <span class="service-desc">daily/hourly cron triggers</span></span></li>
+          <li><span><span class="service-name">Step Functions</span> — <span class="service-desc">pipeline orchestration, retries, parallel execution per source</span></span></li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h3>Scraping</h3>
+        <ul class="service-list">
+          <li><span><span class="service-name">Lambda</span> — <span class="service-desc">~15 public HTML sites (TPB, ATO, ASIC, APRA, etc.)</span></span></li>
+          <li><span><span class="service-name">Fargate + Playwright</span> — <span class="service-desc">authenticated sites (AFR, Accountants Daily)</span></span></li>
+          <li><span><span class="service-name">Secrets Manager</span> — <span class="service-desc">credential storage</span></span></li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h3>AI Processing</h3>
+        <ul class="service-list">
+          <li><span><span class="service-name">Bedrock (Claude)</span> — <span class="service-desc">entity extraction, fuzzy matching, case reasoning</span></span></li>
+          <li><span><span class="service-name">Textract</span> — <span class="service-desc">PDF text extraction (ASIC Gazettes, enforcement reports)</span></span></li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h3>Storage</h3>
+        <ul class="service-list">
+          <li><span><span class="service-name">S3</span> — <span class="service-desc">raw content, PDFs, evidence snapshots</span></span></li>
+          <li><span><span class="service-name">DynamoDB</span> — <span class="service-desc">findings, cases, reviews, audit log</span></span></li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h3>Review Interface</h3>
+        <ul class="service-list">
+          <li><span><span class="service-name">React SPA</span> — <span class="service-desc">hosted on S3 + CloudFront</span></span></li>
+          <li><span><span class="service-name">API Gateway + Lambda</span> — <span class="service-desc">REST API for CRUD</span></span></li>
+          <li><span><span class="service-name">Cognito</span> — <span class="service-desc">authentication for conduct staff</span></span></li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h3>Notifications & Reporting</h3>
+        <ul class="service-list">
+          <li><span><span class="service-name">SNS / SES</span> — <span class="service-desc">email alerts for high-confidence matches</span></span></li>
+          <li><span><span class="service-name">QuickSight</span> — <span class="service-desc">compliance dashboards (post-PoC)</span></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AI Decision Points -->
+    <div class="ai-section">
+      <h2>AI Model Decisions — Where LLM Earns Its Keep (and Where It Might Not)</h2>
+      <div class="ai-decisions">
+        <div class="ai-card">
+          <h4>Extraction</h4>
+          <div class="task-desc">Extract names, actions, and context from varied article formats — regulatory notices, court decisions, news stories.</div>
+          <div class="model-choice">
+            <div class="model-option"><span class="tag tag-proposed">PROPOSED</span> LLM (Claude) — handles all formats</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> NER (spaCy/BERT) — fast, cheap, names only</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Regex — works for structured sources</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Hybrid — regex + LLM by source type</div>
+          </div>
+        </div>
+        <div class="ai-card">
+          <h4>Matching</h4>
+          <div class="task-desc">Match extracted profiles against Salesforce CRM members using compound signals — name, employer, location, role.</div>
+          <div class="model-choice">
+            <div class="model-option"><span class="tag tag-proposed">PROPOSED</span> LLM (Claude) — holistic reasoning</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Fuzzy strings (Jaro-Winkler)</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Embedding similarity (cosine)</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Two-stage: fuzzy filter → LLM rank</div>
+          </div>
+        </div>
+        <div class="ai-card">
+          <h4>Case Association</h4>
+          <div class="task-desc">Group findings from different sources into potential cases about the same person or matter.</div>
+          <div class="model-choice">
+            <div class="model-option"><span class="tag tag-proposed">PROPOSED</span> Rules + LLM for ambiguous cases</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Rule-based only (name + timeframe)</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Embedding clustering (HDBSCAN)</div>
+            <div class="model-option"><span class="tag tag-alternative">ALT</span> Graph clustering (co-occurrence)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cost Comparison -->
+    <div class="cost-section">
+      <h2>Cost Comparison</h2>
+      <div class="cost-compare">
+        <div class="cost-card proposed">
+          <h4>Proposed — Serverless</h4>
+          <div class="cost-price low">~$5-25/mo</div>
+          <div class="cost-detail">
+            Lambda/Fargate: pennies<br>
+            Bedrock inference: main cost (~$2-20/mo at PoC scale)<br>
+            S3/DynamoDB: ~$1-3/mo<br>
+            QuickSight: $9/user/mo (post-PoC)
+          </div>
+        </div>
+        <div class="cost-card rejected">
+          <h4>Rejected — AgentCore + QuickSuite</h4>
+          <div class="cost-price high">~$350-500/mo</div>
+          <div class="cost-detail">
+            QuickSuite: $250 base + $20-40/user/mo<br>
+            AgentCore Runtime: consumption-based<br>
+            Bedrock inference: same<br>
+            Over-provisioned for a batch pipeline
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="phase" style="border-top: 3px solid var(--accent);">
+          <div class="phase-name">Phase 2</div>
+          <div class="phase-time">2-4 wks</div>
+          <div class="phase-desc">Monitoring agent + findings store</div>
+        </div>
+        <div class="phase" style="border-top: 3px solid var(--accent2);">
+          <div class="phase-name">Phase 3</div>
+          <div class="phase-time">2.5-4 wks</div>
+          <div class="phase-desc">Salesforce matching + case association</div>
+        </div>
+        <div class="phase" style="border-top: 3px solid var(--accent);">
+          <div class="phase-name">Phase 4</div>
+          <div class="phase-time">3-4 wks</div>
+          <div class="phase-desc">Review UI (React SPA + API + Cognito)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      CA Media Monitoring — Proposed Architecture &nbsp;·&nbsp; Internal Discussion Document
+    </div>
+
+  </div>
+</body>
+</html>

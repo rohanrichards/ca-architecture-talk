@@ -1,0 +1,15 @@
+{
+  "name": "slidev-theme-geekpunk",
+  "version": "0.1.0",
+  "keywords": ["slidev-theme"],
+  "slidev": {
+    "defaults": {
+      "fonts": {
+        "sans": "Inter",
+        "mono": "JetBrains Mono",
+        "weights": "400,500,600,700"
+      },
+      "transition": "slide-left"
+    }
+  }
+}

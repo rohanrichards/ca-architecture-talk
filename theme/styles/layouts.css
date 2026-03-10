@@ -1,0 +1,20 @@
+/* Layout-specific overrides */
+.slidev-layout.gp-cover h1 {
+  font-size: 3.5rem;
+  letter-spacing: -0.04em;
+}
+
+.slidev-layout.gp-section h1 {
+  font-size: 3rem;
+  letter-spacing: -0.03em;
+}
+
+.slidev-layout.gp-quote blockquote {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  border-left-width: 4px;
+}
+
+.slidev-layout.gp-code-focus pre {
+  font-size: 1.1rem;
+}
