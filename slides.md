@@ -99,10 +99,10 @@ Three decision points, three different problems
   <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
     <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.4rem;">The Options</div>
     <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
-      ▸ <strong style="color: #e6edf3;">LLM (Claude)</strong> — all formats, expensive<br/>
-      ▸ <strong style="color: #e6edf3;">NER (spaCy/BERT)</strong> — fast, names only<br/>
-      ▸ <strong style="color: #e6edf3;">Regex</strong> — structured sources only<br/>
-      ▸ <strong style="color: #e6edf3;">Hybrid</strong> — regex + LLM by source?
+      ▸ <strong style="color: #e6edf3;">LLMs</strong> — flexible, expensive<br/>
+      ▸ <strong style="color: #e6edf3;">Zero-shot NER</strong> — GLiNER, NuNER<br/>
+      ▸ <strong style="color: #e6edf3;">Fine-tuned encoders</strong> — DeBERTa, Flair<br/>
+      ▸ <strong style="color: #e6edf3;">Rules / regex</strong> — structured sources
     </div>
   </div>
 </div>
@@ -115,7 +115,7 @@ Three decision points, three different problems
 
 # The Non-LLM Extraction Landscape
 
-<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.5rem;">There's more than regex and BERT. The field has moved significantly.</div>
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.5rem;">The non-LLM extraction space has matured significantly.</div>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem;">
   <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
