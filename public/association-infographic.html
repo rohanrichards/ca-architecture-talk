@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Association Pipeline — Data Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --bg-surface: rgba(22, 27, 34, 0.8);
+    --border: rgba(48, 54, 61, 0.6);
+    --cyan: #00d4ff;
+    --purple: #7c3aed;
+    --purple-light: #a78bfa;
+    --green: #28c840;
+    --amber: #febc2e;
+    --red: #ff5f57;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #484f58;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    background: linear-gradient(135deg, var(--cyan), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  /* Pipeline stages */
+  .pipeline {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 2rem;
+  }
+
+  .stage {
+    flex: 1;
+    position: relative;
+  }
+
+  .stage-header {
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .stage-header.scrape { background: rgba(0, 212, 255, 0.12); color: var(--cyan); border: 1px solid rgba(0, 212, 255, 0.25); border-bottom: none; }
+  .stage-header.extract { background: rgba(124, 58, 237, 0.12); color: var(--purple-light); border: 1px solid rgba(124, 58, 237, 0.25); border-bottom: none; }
+  .stage-header.match { background: rgba(124, 58, 237, 0.12); color: var(--purple-light); border: 1px solid rgba(124, 58, 237, 0.25); border-bottom: none; }
+  .stage-header.associate { background: rgba(124, 58, 237, 0.12); color: var(--purple-light); border: 1px solid rgba(124, 58, 237, 0.25); border-bottom: none; }
+
+  .stage-body {
+    padding: 1rem;
+    min-height: 200px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    line-height: 1.7;
+  }
+
+  .stage-body.scrape-bg { background: var(--bg-surface); border: 1px solid rgba(0, 212, 255, 0.15); border-top: none; border-radius: 0 0 8px 8px; }
+  .stage-body.extract-bg { background: var(--bg-surface); border: 1px solid rgba(124, 58, 237, 0.15); border-top: none; border-radius: 0 0 8px 8px; }
+  .stage-body.match-bg { background: var(--bg-surface); border: 1px solid rgba(124, 58, 237, 0.15); border-top: none; border-radius: 0 0 8px 8px; }
+  .stage-body.associate-bg { background: var(--bg-surface); border: 1px solid rgba(124, 58, 237, 0.15); border-top: none; border-radius: 0 0 8px 8px; }
+
+  .arrow-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    flex-shrink: 0;
+    color: var(--cyan);
+    font-size: 1.25rem;
+    padding-top: 1.5rem;
+  }
+
+  /* Data examples */
+  .data-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .source-tag {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+  .source-tag.tpb { background: rgba(255, 95, 87, 0.15); color: var(--red); }
+  .source-tag.asic { background: rgba(254, 188, 46, 0.15); color: var(--amber); }
+  .source-tag.afr { background: rgba(0, 212, 255, 0.15); color: var(--cyan); }
+
+  .article-block {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    border-left: 2px solid var(--text-dim);
+  }
+  .article-block.highlight-a { border-left-color: var(--red); }
+  .article-block.highlight-b { border-left-color: var(--amber); }
+  .article-block.highlight-c { border-left-color: var(--cyan); }
+
+  .article-text { color: var(--text-muted); font-size: 0.65rem; }
+  .article-text em { color: var(--text); font-style: normal; font-weight: 600; }
+
+  .extracted-entity {
+    margin-bottom: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+  }
+
+  .entity-name { color: var(--text); font-weight: 600; font-size: 0.7rem; }
+  .entity-field { color: var(--text-dim); font-size: 0.6rem; }
+  .entity-value { color: var(--text-muted); }
+
+  .match-result {
+    margin-bottom: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+  }
+  .match-score { font-weight: 600; }
+  .match-score.high { color: var(--green); }
+  .match-score.med { color: var(--amber); }
+
+  .case-group {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+  }
+  .case-group.case-a { background: rgba(255, 95, 87, 0.08); border: 1px solid rgba(255, 95, 87, 0.25); }
+  .case-group.case-b { background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.25); }
+  .case-group.case-c { background: rgba(40, 200, 64, 0.08); border: 1px solid rgba(40, 200, 64, 0.25); }
+
+  .case-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+  .case-label.a { color: var(--red); }
+  .case-label.b { color: var(--cyan); }
+  .case-label.c { color: var(--green); }
+
+  .case-finding {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    padding: 0.15rem 0;
+  }
+
+  /* Insight section */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .insight-card {
+    padding: 1.25rem;
+    border-radius: 10px;
+    background: var(--bg-surface);
+  }
+  .insight-card.rules {
+    border: 1px solid rgba(40, 200, 64, 0.3);
+  }
+  .insight-card.hard {
+    border: 1px solid rgba(124, 58, 237, 0.3);
+  }
+
+  .insight-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .insight-title.green { color: var(--green); }
+  .insight-title.purple { color: var(--purple-light); }
+
+  .insight-item {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .insight-item strong { color: var(--text); }
+
+  /* Decision section */
+  .decision-section {
+    margin-top: 1.5rem;
+  }
+
+  .decision-header {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--purple-light);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .decision-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .decision-card {
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+  }
+
+  .decision-card-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .decision-card-desc {
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .decision-card .tag {
+    display: inline-block;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.55rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  .tag.simple { background: rgba(40, 200, 64, 0.15); color: var(--green); }
+  .tag.moderate { background: rgba(254, 188, 46, 0.15); color: var(--amber); }
+  .tag.complex { background: rgba(124, 58, 237, 0.15); color: var(--purple-light); }
+
+  /* Callout */
+  .callout {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgba(124, 58, 237, 0.08);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--text); }
+
+  /* Footer */
+  .footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Association: How Findings Become Cases</h1>
+  <p class="subtitle">Tracing example data through Extract → Match → Associate to see where the real complexity lives.</p>
+
+  <!-- Pipeline data flow -->
+  <div class="pipeline">
+    <!-- SCRAPE -->
+    <div class="stage">
+      <div class="stage-header scrape">① Scraped Articles</div>
+      <div class="stage-body scrape-bg">
+        <div class="article-block highlight-a">
+          <div><span class="source-tag tpb">TPB</span></div>
+          <div class="article-text">"<em>John David Smith</em>, registered tax agent, registration cancelled for breach of Code of Professional Conduct..."</div>
+        </div>
+        <div class="article-block highlight-a">
+          <div><span class="source-tag asic">ASIC</span></div>
+          <div class="article-text">"<em>JD Smith</em> of <em>Smith & Partners, Melbourne</em> — ASIC has commenced civil proceedings..."</div>
+        </div>
+        <div class="article-block highlight-b">
+          <div><span class="source-tag afr">AFR</span></div>
+          <div class="article-text">"<em>Jane Doe</em>, former partner at <em>BDO Brisbane</em>, has been charged with tax fraud involving..."</div>
+        </div>
+        <div class="article-block highlight-c">
+          <div><span class="source-tag tpb">TPB</span></div>
+          <div class="article-text">"<em>R. Johnson</em>, BAS agent, issued formal caution for failure to comply with..."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-col">→</div>
+
+    <!-- EXTRACT -->
+    <div class="stage">
+      <div class="stage-header extract">② Extracted Entities</div>
+      <div class="stage-body extract-bg">
+        <div class="extracted-entity">
+          <div class="entity-name">John David Smith</div>
+          <div><span class="entity-field">role:</span> <span class="entity-value">tax agent</span></div>
+          <div><span class="entity-field">action:</span> <span class="entity-value">registration cancelled</span></div>
+          <div><span class="entity-field">source:</span> <span class="source-tag tpb" style="font-size:0.55rem;">TPB</span></div>
+        </div>
+        <div class="extracted-entity">
+          <div class="entity-name">JD Smith</div>
+          <div><span class="entity-field">firm:</span> <span class="entity-value">Smith & Partners, Melbourne</span></div>
+          <div><span class="entity-field">action:</span> <span class="entity-value">civil proceedings</span></div>
+          <div><span class="entity-field">source:</span> <span class="source-tag asic" style="font-size:0.55rem;">ASIC</span></div>
+        </div>
+        <div class="extracted-entity">
+          <div class="entity-name">Jane Doe</div>
+          <div><span class="entity-field">firm:</span> <span class="entity-value">BDO Brisbane</span></div>
+          <div><span class="entity-field">action:</span> <span class="entity-value">charged, tax fraud</span></div>
+          <div><span class="entity-field">source:</span> <span class="source-tag afr" style="font-size:0.55rem;">AFR</span></div>
+        </div>
+        <div class="extracted-entity">
+          <div class="entity-name">R. Johnson</div>
+          <div><span class="entity-field">role:</span> <span class="entity-value">BAS agent</span></div>
+          <div><span class="entity-field">action:</span> <span class="entity-value">formal caution</span></div>
+          <div><span class="entity-field">source:</span> <span class="source-tag tpb" style="font-size:0.55rem;">TPB</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-col">→</div>
+
+    <!-- MATCH -->
+    <div class="stage">
+      <div class="stage-header match">③ CRM Matches</div>
+      <div class="stage-body match-bg">
+        <div class="match-result">
+          <div class="entity-name">John David Smith</div>
+          <div><span class="entity-field">→</span> <span class="entity-value">Member #4821</span> <span class="match-score high">94%</span></div>
+          <div><span class="entity-field">signals:</span> <span class="entity-value">name exact, Melbourne, tax agent</span></div>
+        </div>
+        <div class="match-result">
+          <div class="entity-name">JD Smith</div>
+          <div><span class="entity-field">→</span> <span class="entity-value">Member #4821</span> <span class="match-score med">78%</span></div>
+          <div><span class="entity-field">signals:</span> <span class="entity-value">initials match, same firm suburb</span></div>
+        </div>
+        <div class="match-result">
+          <div class="entity-name">Jane Doe</div>
+          <div><span class="entity-field">→</span> <span class="entity-value">Member #7203</span> <span class="match-score high">91%</span></div>
+          <div><span class="entity-field">signals:</span> <span class="entity-value">name exact, BDO, Brisbane</span></div>
+        </div>
+        <div class="match-result">
+          <div class="entity-name">R. Johnson</div>
+          <div><span class="entity-field">→</span> <span class="entity-value">Member #1156</span> <span class="match-score med">67%</span></div>
+          <div><span class="entity-field">signals:</span> <span class="entity-value">initial + surname, BAS agent role</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-col">→</div>
+
+    <!-- ASSOCIATE -->
+    <div class="stage">
+      <div class="stage-header associate">④ Cases</div>
+      <div class="stage-body associate-bg">
+        <div class="case-group case-a">
+          <div class="case-label a">Case #1 — John Smith</div>
+          <div class="case-finding">▸ TPB cancellation (Finding #1)</div>
+          <div class="case-finding">▸ ASIC proceedings (Finding #2)</div>
+          <div class="case-finding" style="color: var(--text-dim); font-size:0.55rem; margin-top:0.25rem;">Grouped by: sf_match_id = #4821</div>
+        </div>
+        <div class="case-group case-b">
+          <div class="case-label b">Case #2 — Jane Doe</div>
+          <div class="case-finding">▸ AFR tax fraud article (Finding #3)</div>
+          <div class="case-finding" style="color: var(--text-dim); font-size:0.55rem; margin-top:0.25rem;">Grouped by: sf_match_id = #7203</div>
+        </div>
+        <div class="case-group case-c">
+          <div class="case-label c">Case #3 — R. Johnson</div>
+          <div class="case-finding">▸ TPB caution (Finding #4)</div>
+          <div class="case-finding" style="color: var(--text-dim); font-size:0.55rem; margin-top:0.25rem;">Grouped by: sf_match_id = #1156</div>
+        </div>
+        <div style="margin-top: 0.5rem; padding: 0.35rem; background: rgba(40, 200, 64, 0.08); border-radius: 4px; text-align: center;">
+          <span style="font-size: 0.6rem; color: var(--green); font-weight: 600;">Simple case: GROUP BY sf_match_id</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Where it gets hard -->
+  <div class="insight-grid">
+    <div class="insight-card rules">
+      <div class="insight-title green">The Easy 80% — Rules Work</div>
+      <div class="insight-item">▸ <strong>Good matcher</strong> → both "John David Smith" and "JD Smith" resolve to Member #4821</div>
+      <div class="insight-item">▸ <strong>Association = GROUP BY</strong> on the Salesforce match ID</div>
+      <div class="insight-item">▸ <strong>Temporal window</strong> — findings within 90 days auto-cluster</div>
+      <div class="insight-item">▸ <strong>No AI required</strong> — a SQL query handles this</div>
+    </div>
+    <div class="insight-card hard">
+      <div class="insight-title purple">The Hard 20% — Where Complexity Lives</div>
+      <div class="insight-item">▸ <strong>No CRM match</strong> — unmatched findings that might still be related</div>
+      <div class="insight-item">▸ <strong>Dormant cases</strong> — 6 months silence, then a new article surfaces</div>
+      <div class="insight-item">▸ <strong>Cross-matter</strong> — one person, two separate conduct issues</div>
+      <div class="insight-item">▸ <strong>Oblique references</strong> — "the Melbourne tax agent case" without naming anyone</div>
+    </div>
+  </div>
+
+  <!-- Decision approaches -->
+  <div class="decision-section">
+    <div class="decision-header">Approaches by Complexity Layer</div>
+    <div class="decision-grid">
+      <div class="decision-card">
+        <div class="decision-card-title">Layer 1: Rules</div>
+        <div class="decision-card-desc">
+          GROUP BY sf_match_id within a time window. Handles all resolved matches trivially. No model, no cost, deterministic.
+        </div>
+        <div class="tag simple">HANDLES ~80%</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">Layer 2: Clustering</div>
+        <div class="decision-card-desc">
+          BIRCH or HDBSCAN on embeddings of unmatched findings. Catches thematic groupings the matcher missed. Incremental, runs on CPU.
+        </div>
+        <div class="tag moderate">HANDLES ~15%</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">Layer 3: Human Review</div>
+        <div class="decision-card-desc">
+          Surface ambiguous cases to analysts. Correlation clustering incorporates their must-link/cannot-link feedback for future runs.
+        </div>
+        <div class="tag complex">HANDLES ~5%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>The real question isn't "should we use an LLM for association?"</strong> — it's "how good is our matcher?" If matching resolves identities reliably, association collapses to a GROUP BY. The complexity budget belongs upstream in extraction and matching, not here.
+  </div>
+
+  <div class="footer">
+    CA Media Monitoring — Association Pipeline Analysis — Internal Discussion Document
+  </div>
+
+</div>
+</body>
+</html>

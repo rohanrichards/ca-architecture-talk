@@ -39,37 +39,167 @@ A chartered accountants body (AU/NZ) monitors ~20+ regulatory and news sources f
 
 # The Core Workflow
 
-Five stages, three of which involve AI decisions worth discussing.
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.75rem;">Five stages — three involve AI decisions worth discussing.</div>
 
-<div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap;">
-  <div style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;">
-    <div style="font-size: 1.5rem;">1</div>
-    <div style="font-size: 0.85rem; color: #8b949e;">Scrape</div>
+<!-- Pipeline row -->
+<div style="display: flex; align-items: stretch; gap: 0.5rem; margin-top: 0.25rem;">
+
+  <div style="flex: 1; background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 10px; padding: 0.6rem 0.5rem; text-align: center;">
+    <div style="font-size: 1.1rem; font-weight: 700; color: #00d4ff;">①</div>
+    <div style="font-size: 0.75rem; font-weight: 600; color: #e6edf3; margin: 0.2rem 0;">Scrape</div>
+    <div style="font-size: 0.55rem; line-height: 1.5; color: #484f58;">20+ sources<br/>Lambda + Fargate</div>
   </div>
-  <div style="color: #00d4ff; font-size: 1.5rem;">→</div>
-  <div style="background: rgba(124, 58, 237, 0.15); border: 1px solid rgba(124, 58, 237, 0.4); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;">
-    <div style="font-size: 1.5rem;">2</div>
-    <div style="font-size: 0.85rem; color: #a78bfa;">Extract ✦ AI</div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem;">›</div>
+
+  <div style="flex: 1; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 10px; padding: 0.6rem 0.5rem; text-align: center;">
+    <div style="font-size: 1.1rem; font-weight: 700; color: #a78bfa;">②</div>
+    <div style="font-size: 0.75rem; font-weight: 600; color: #e6edf3; margin: 0.2rem 0;">Extract</div>
+    <div style="font-size: 0.55rem; line-height: 1.5; color: #484f58;">Names, roles, actions<br/>from raw article text</div>
+    <div style="margin-top: 0.3rem; font-size: 0.5rem; background: rgba(124, 58, 237, 0.2); color: #a78bfa; padding: 0.1rem 0.3rem; border-radius: 3px; display: inline-block;">✦ AI</div>
   </div>
-  <div style="color: #00d4ff; font-size: 1.5rem;">→</div>
-  <div style="background: rgba(124, 58, 237, 0.15); border: 1px solid rgba(124, 58, 237, 0.4); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;">
-    <div style="font-size: 1.5rem;">3</div>
-    <div style="font-size: 0.85rem; color: #a78bfa;">Match ✦ AI</div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem;">›</div>
+
+  <div style="flex: 1; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 10px; padding: 0.6rem 0.5rem; text-align: center;">
+    <div style="font-size: 1.1rem; font-weight: 700; color: #a78bfa;">③</div>
+    <div style="font-size: 0.75rem; font-weight: 600; color: #e6edf3; margin: 0.2rem 0;">Match</div>
+    <div style="font-size: 0.55rem; line-height: 1.5; color: #484f58;">Cross-ref against<br/>Salesforce CRM</div>
+    <div style="margin-top: 0.3rem; font-size: 0.5rem; background: rgba(124, 58, 237, 0.2); color: #a78bfa; padding: 0.1rem 0.3rem; border-radius: 3px; display: inline-block;">✦ AI</div>
   </div>
-  <div style="color: #00d4ff; font-size: 1.5rem;">→</div>
-  <div style="background: rgba(124, 58, 237, 0.15); border: 1px solid rgba(124, 58, 237, 0.4); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;">
-    <div style="font-size: 1.5rem;">4</div>
-    <div style="font-size: 0.85rem; color: #a78bfa;">Associate ✦ AI</div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem;">›</div>
+
+  <div style="flex: 1; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 10px; padding: 0.6rem 0.5rem; text-align: center;">
+    <div style="font-size: 1.1rem; font-weight: 700; color: #a78bfa;">④</div>
+    <div style="font-size: 0.75rem; font-weight: 600; color: #e6edf3; margin: 0.2rem 0;">Associate</div>
+    <div style="font-size: 0.55rem; line-height: 1.5; color: #484f58;">Group findings<br/>into cases</div>
+    <div style="margin-top: 0.3rem; font-size: 0.5rem; background: rgba(124, 58, 237, 0.2); color: #a78bfa; padding: 0.1rem 0.3rem; border-radius: 3px; display: inline-block;">✦ AI?</div>
   </div>
-  <div style="color: #00d4ff; font-size: 1.5rem;">→</div>
-  <div style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;">
-    <div style="font-size: 1.5rem;">5</div>
-    <div style="font-size: 0.85rem; color: #8b949e;">Review</div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem;">›</div>
+
+  <div style="flex: 1; background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 10px; padding: 0.6rem 0.5rem; text-align: center;">
+    <div style="font-size: 1.1rem; font-weight: 700; color: #00d4ff;">⑤</div>
+    <div style="font-size: 0.75rem; font-weight: 600; color: #e6edf3; margin: 0.2rem 0;">Review</div>
+    <div style="font-size: 0.55rem; line-height: 1.5; color: #484f58;">Human approval<br/>React SPA queue</div>
   </div>
+
 </div>
 
-<div style="margin-top: 1.5rem; font-size: 1rem; color: #8b949e;">
-  ✦ = AI decision point — is an LLM the right tool here?
+<!-- Source examples -->
+<div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">TPB</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">ASIC</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">APRA</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">ATO</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">Austlii</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">AFR</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">Accountants Daily</div>
+  <div style="font-size: 0.6rem; color: #484f58; padding: 0.15rem 0.4rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">+ 12 more</div>
+</div>
+
+<div style="margin-top: 0.6rem; padding: 0.35rem 0.65rem; background: rgba(124, 58, 237, 0.08); border-left: 3px solid rgba(124, 58, 237, 0.4); border-radius: 0 6px 6px 0; font-size: 0.7rem; color: #8b949e;">
+  The central question: <strong style="color: #e6edf3;">is an LLM the right tool</strong> for each ✦ stage — or are there better, cheaper alternatives?
+</div>
+
+---
+
+# Example: Article → Case
+
+<div style="font-size: 0.85rem; color: #8b949e; margin: -0.5rem 0 0.5rem;">Concrete data flowing through the pipeline — one scrape run.</div>
+
+<div style="display: grid; grid-template-columns: 1.2fr auto 1fr auto 1fr auto 0.9fr; align-items: center; gap: 0; font-family: 'JetBrains Mono', monospace;">
+
+  <!-- SCRAPE -->
+  <div>
+    <div style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; font-weight: 600; margin-bottom: 0.35rem;">Scraped</div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(0,0,0,0.25); border-left: 2px solid #ff5f57; border-radius: 3px; margin-bottom: 0.3rem;">
+      <span style="font-size: 0.5rem; background: rgba(255,95,87,0.15); color: #ff5f57; padding: 0.1rem 0.25rem; border-radius: 2px; font-weight: 600;">TPB</span>
+      <div style="font-size: 0.55rem; color: #8b949e; margin-top: 0.15rem;"><strong style="color:#e6edf3;">John David Smith</strong>, tax agent, registration cancelled...</div>
+    </div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(0,0,0,0.25); border-left: 2px solid #febc2e; border-radius: 3px; margin-bottom: 0.3rem;">
+      <span style="font-size: 0.5rem; background: rgba(254,188,46,0.15); color: #febc2e; padding: 0.1rem 0.25rem; border-radius: 2px; font-weight: 600;">ASIC</span>
+      <div style="font-size: 0.55rem; color: #8b949e; margin-top: 0.15rem;"><strong style="color:#e6edf3;">JD Smith</strong> of Smith & Partners — civil proceedings...</div>
+    </div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(0,0,0,0.25); border-left: 2px solid #00d4ff; border-radius: 3px; margin-bottom: 0.3rem;">
+      <span style="font-size: 0.5rem; background: rgba(0,212,255,0.15); color: #00d4ff; padding: 0.1rem 0.25rem; border-radius: 2px; font-weight: 600;">AFR</span>
+      <div style="font-size: 0.55rem; color: #8b949e; margin-top: 0.15rem;"><strong style="color:#e6edf3;">Jane Doe</strong>, former BDO partner, charged with tax fraud...</div>
+    </div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(0,0,0,0.25); border-left: 2px solid #28c840; border-radius: 3px;">
+      <span style="font-size: 0.5rem; background: rgba(40,200,64,0.15); color: #28c840; padding: 0.1rem 0.25rem; border-radius: 2px; font-weight: 600;">TPB</span>
+      <div style="font-size: 0.55rem; color: #8b949e; margin-top: 0.15rem;"><strong style="color:#e6edf3;">R. Johnson</strong>, BAS agent, formal caution...</div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem; padding: 0 0.25rem;">›</div>
+
+  <!-- EXTRACT -->
+  <div>
+    <div style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; font-weight: 600; margin-bottom: 0.35rem;">Extracted</div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px; margin-bottom: 0.25rem;">
+      <div style="font-size: 0.6rem; color: #e6edf3; font-weight: 600;">John David Smith</div>
+      <div style="font-size: 0.5rem; color: #484f58;">tax agent · cancelled</div>
+    </div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px; margin-bottom: 0.25rem;">
+      <div style="font-size: 0.6rem; color: #e6edf3; font-weight: 600;">JD Smith</div>
+      <div style="font-size: 0.5rem; color: #484f58;">Smith & Partners · proceedings</div>
+    </div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px; margin-bottom: 0.25rem;">
+      <div style="font-size: 0.6rem; color: #e6edf3; font-weight: 600;">Jane Doe</div>
+      <div style="font-size: 0.5rem; color: #484f58;">BDO Brisbane · tax fraud</div>
+    </div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px;">
+      <div style="font-size: 0.6rem; color: #e6edf3; font-weight: 600;">R. Johnson</div>
+      <div style="font-size: 0.5rem; color: #484f58;">BAS agent · caution</div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem; padding: 0 0.25rem;">›</div>
+
+  <!-- MATCH -->
+  <div>
+    <div style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; font-weight: 600; margin-bottom: 0.35rem;">Matched</div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px; margin-bottom: 0.25rem;">
+      <div style="font-size: 0.55rem;"><span style="color: #e6edf3;">J.D. Smith</span> → <span style="color: #8b949e;">#4821</span> <span style="color: #28c840; font-weight: 600;">94%</span></div>
+    </div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px; margin-bottom: 0.25rem;">
+      <div style="font-size: 0.55rem;"><span style="color: #e6edf3;">JD Smith</span> → <span style="color: #8b949e;">#4821</span> <span style="color: #febc2e; font-weight: 600;">78%</span></div>
+    </div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px; margin-bottom: 0.25rem;">
+      <div style="font-size: 0.55rem;"><span style="color: #e6edf3;">Jane Doe</span> → <span style="color: #8b949e;">#7203</span> <span style="color: #28c840; font-weight: 600;">91%</span></div>
+    </div>
+    <div style="padding: 0.3rem 0.4rem; background: rgba(0,0,0,0.25); border-radius: 3px;">
+      <div style="font-size: 0.55rem;"><span style="color: #e6edf3;">R. Johnson</span> → <span style="color: #8b949e;">#1156</span> <span style="color: #febc2e; font-weight: 600;">67%</span></div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; color: rgba(0, 212, 255, 0.4); font-size: 1.25rem; padding: 0 0.25rem;">›</div>
+
+  <!-- ASSOCIATE -->
+  <div>
+    <div style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; font-weight: 600; margin-bottom: 0.35rem;">Cases</div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(255,95,87,0.06); border: 1px solid rgba(255,95,87,0.2); border-radius: 4px; margin-bottom: 0.3rem;">
+      <div style="font-size: 0.5rem; color: #ff5f57; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Case #1</div>
+      <div style="font-size: 0.55rem; color: #e6edf3;">John Smith</div>
+      <div style="font-size: 0.5rem; color: #484f58;">2 findings · #4821</div>
+    </div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2); border-radius: 4px; margin-bottom: 0.3rem;">
+      <div style="font-size: 0.5rem; color: #00d4ff; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Case #2</div>
+      <div style="font-size: 0.55rem; color: #e6edf3;">Jane Doe</div>
+      <div style="font-size: 0.5rem; color: #484f58;">1 finding · #7203</div>
+    </div>
+    <div style="padding: 0.35rem 0.45rem; background: rgba(40,200,64,0.06); border: 1px solid rgba(40,200,64,0.2); border-radius: 4px;">
+      <div style="font-size: 0.5rem; color: #28c840; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Case #3</div>
+      <div style="font-size: 0.55rem; color: #e6edf3;">R. Johnson</div>
+      <div style="font-size: 0.5rem; color: #484f58;">1 finding · #1156</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 0.6rem; padding: 0.35rem 0.65rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.7rem; color: #8b949e;">
+  Note: "John David Smith" (TPB) and "JD Smith" (ASIC) both resolve to <strong style="color: #e6edf3;">Member #4821</strong> — the matcher does the hard work, association is just <code>GROUP BY</code>.
 </div>
 
 ---
@@ -226,52 +356,62 @@ Three decision points, three different problems
   <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
     <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.4rem;">The Challenge</div>
     <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
-      ▸ Findings arrive over time<br/>
+      ▸ Findings arrive over time, not all at once<br/>
       ▸ Same matter across TPB → ASIC → AFR<br/>
-      ▸ Temporal and contextual reasoning<br/>
-      ▸ Cross-run accumulation
+      ▸ Cases go dormant then reactivate<br/>
+      ▸ Depends heavily on matcher quality
     </div>
   </div>
   <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
     <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.4rem;">The Options</div>
     <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
-      ▸ <strong style="color: #e6edf3;">LLM</strong> — reasons about connections<br/>
-      ▸ <strong style="color: #e6edf3;">Graph clustering</strong> — co-occurrence<br/>
-      ▸ <strong style="color: #e6edf3;">Embeddings</strong> — HDBSCAN clusters<br/>
-      ▸ <strong style="color: #e6edf3;">Rules</strong> — name + timeframe = case
+      ▸ <strong style="color: #e6edf3;">LLMs</strong> — reason about connections<br/>
+      ▸ <strong style="color: #e6edf3;">Community detection</strong> — Leiden, graphs<br/>
+      ▸ <strong style="color: #e6edf3;">Incremental clustering</strong> — BIRCH, HDBSCAN<br/>
+      ▸ <strong style="color: #e6edf3;">Rules</strong> — GROUP BY match ID
     </div>
   </div>
 </div>
 
 <div style="margin-top: 0.75rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
-  <strong>Proposed:</strong> Rules first, LLM only for ambiguous cases
+  <strong>Key insight:</strong> If matching resolves identities well, association is mostly <code>GROUP BY sf_match_id</code>
 </div>
 
 ---
 
-# Association: The Weakest LLM Case?
+# The Non-LLM Association Landscape
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
-  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 1rem;">
-    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.5rem;">Where LLM helps</div>
-    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
-      ▸ Ambiguous names across sources<br/>
-      ▸ Cross-matter references<br/>
-      ▸ Articles referencing cases without naming
-    </div>
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.5rem;">25+ years of research on this exact problem — Topic Detection & Tracking.</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem;">
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">Leiden Algorithm</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Community detection on entity co-occurrence graphs. <strong style="color: #e6edf3;">Best-in-class</strong> for finding clusters in bipartite entity→document networks.</div>
   </div>
-  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 1rem;">
-    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Counter-argument</div>
-    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
-      ▸ Rules handle ~80% of cases trivially<br/>
-      ▸ Embeddings catch what rules miss<br/>
-      ▸ Deterministic = cheaper, faster, predictable
-    </div>
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">HDBSCAN Soft Clustering</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Probability vectors for ambiguous findings. <strong style="color: #e6edf3;">Partial incremental support.</strong> Surfaces uncertainty rather than forcing hard assignments.</div>
+  </div>
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">Correlation Clustering</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Pairwise same/different labels. Streaming variants exist. <strong style="color: #e6edf3;">Supports analyst feedback</strong> via must-link/cannot-link constraints.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">BIRCH</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Only truly incremental hierarchical clustering in scikit-learn. <strong style="color: #e6edf3;">Single-pass, memory-bounded.</strong> Ideal for streaming findings.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">Energy Micro-Clusters</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Handles temporal gaps — dormancy + reactivation. <strong style="color: #e6edf3;">Cases that go quiet then resurface</strong> are the hard problem here.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">TDT (Topic Detection)</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">25+ years of NIST research. <strong style="color: #e6edf3;">Maps exactly to our problem:</strong> first story detection + story linking across streaming news.</div>
   </div>
 </div>
 
-<div style="margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.85rem;">
-  💬 Should we even use LLM here? Rules + embeddings might be sufficient.
+<div style="margin-top: 0.5rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.75rem;">
+  💬 Simple path: <strong>GROUP BY sf_match_id</strong> (if matcher is good) + <strong>BIRCH</strong> (incremental) + <strong>analyst feedback</strong> (correlation clustering). No LLM needed.
 </div>
 
 ---
