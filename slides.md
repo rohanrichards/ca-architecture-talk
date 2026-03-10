@@ -81,36 +81,33 @@ layout: section
 Three decision points, three different problems
 
 ---
-layout: two-cols
----
 
 # Extraction
 
-Extract **names**, **actions**, and **context** from raw article text.
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.75rem;">Extract names, actions, and context from raw article text.</div>
 
-<v-clicks>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.4rem;">The Challenge</div>
+    <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
+      ▸ Source formats vary wildly<br/>
+      ▸ Oblique references common<br/>
+      ▸ Need rich profiles, not just names<br/>
+      ▸ Structured output for matching
+    </div>
+  </div>
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.4rem;">The Options</div>
+    <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
+      ▸ <strong style="color: #e6edf3;">LLM (Claude)</strong> — all formats, expensive<br/>
+      ▸ <strong style="color: #e6edf3;">NER (spaCy/BERT)</strong> — fast, names only<br/>
+      ▸ <strong style="color: #e6edf3;">Regex</strong> — structured sources only<br/>
+      ▸ <strong style="color: #e6edf3;">Hybrid</strong> — regex + LLM by source?
+    </div>
+  </div>
+</div>
 
-- Source formats vary wildly
-- Oblique references common
-- Need rich profiles, not just names
-- Structured output for matching
-
-</v-clicks>
-
-::right::
-
-<div style="margin-top: 3.5rem;"></div>
-
-<v-clicks>
-
-- **LLM (Claude)** — all formats, expensive
-- **NER (spaCy/BERT)** — fast, names only
-- **Regex** — structured sources only
-- **Hybrid** — regex + LLM by source?
-
-</v-clicks>
-
-<div style="margin-top: 1.5rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
+<div style="margin-top: 0.75rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
   <strong>Proposed:</strong> LLM for everything — one model, all formats, no per-source logic
 </div>
 
@@ -143,36 +140,33 @@ Extract **names**, **actions**, and **context** from raw article text.
 </div>
 
 ---
-layout: two-cols
----
 
 # Matching
 
-Match extracted profiles against **Salesforce CRM** members.
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.75rem;">Match extracted profiles against Salesforce CRM members.</div>
 
-<v-clicks>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.4rem;">The Challenge</div>
+    <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
+      ▸ "John Smith" returns hundreds<br/>
+      ▸ Need compound signals for confidence<br/>
+      ▸ Abbreviations, maiden names, typos<br/>
+      ▸ Context narrows common names
+    </div>
+  </div>
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.4rem;">The Options</div>
+    <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
+      ▸ <strong style="color: #e6edf3;">LLM (Claude)</strong> — holistic reasoning<br/>
+      ▸ <strong style="color: #e6edf3;">Fuzzy strings</strong> — Jaro-Winkler, fast<br/>
+      ▸ <strong style="color: #e6edf3;">Embeddings</strong> — cosine similarity<br/>
+      ▸ <strong style="color: #e6edf3;">ML classifier</strong> — needs training data
+    </div>
+  </div>
+</div>
 
-- "John Smith" returns hundreds
-- Need compound signals for confidence
-- Abbreviations, maiden names, typos
-- Context narrows common names
-
-</v-clicks>
-
-::right::
-
-<div style="margin-top: 3.5rem;"></div>
-
-<v-clicks>
-
-- **LLM (Claude)** — holistic reasoning
-- **Fuzzy strings** — Jaro-Winkler, fast
-- **Embeddings** — cosine similarity
-- **ML classifier** — needs training data
-
-</v-clicks>
-
-<div style="margin-top: 1.5rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
+<div style="margin-top: 0.75rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
   <strong>Proposed:</strong> LLM reasons over name + employer + location + role = confidence
 </div>
 
@@ -204,36 +198,33 @@ Match extracted profiles against **Salesforce CRM** members.
 </div>
 
 ---
-layout: two-cols
----
 
 # Case Association
 
-Group findings into **potential cases** — same person, different sources.
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.75rem;">Group findings into potential cases — same person, different sources.</div>
 
-<v-clicks>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.4rem;">The Challenge</div>
+    <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
+      ▸ Findings arrive over time<br/>
+      ▸ Same matter across TPB → ASIC → AFR<br/>
+      ▸ Temporal and contextual reasoning<br/>
+      ▸ Cross-run accumulation
+    </div>
+  </div>
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.4rem;">The Options</div>
+    <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
+      ▸ <strong style="color: #e6edf3;">LLM</strong> — reasons about connections<br/>
+      ▸ <strong style="color: #e6edf3;">Graph clustering</strong> — co-occurrence<br/>
+      ▸ <strong style="color: #e6edf3;">Embeddings</strong> — HDBSCAN clusters<br/>
+      ▸ <strong style="color: #e6edf3;">Rules</strong> — name + timeframe = case
+    </div>
+  </div>
+</div>
 
-- Findings arrive over time
-- Same matter across TPB → ASIC → AFR
-- Temporal and contextual reasoning
-- Cross-run accumulation
-
-</v-clicks>
-
-::right::
-
-<div style="margin-top: 3.5rem;"></div>
-
-<v-clicks>
-
-- **LLM** — reasons about connections
-- **Graph clustering** — co-occurrence
-- **Embeddings** — HDBSCAN clusters
-- **Rules** — name + timeframe = case
-
-</v-clicks>
-
-<div style="margin-top: 1.5rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
+<div style="margin-top: 0.75rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
   <strong>Proposed:</strong> Rules first, LLM only for ambiguous cases
 </div>
 
@@ -417,13 +408,29 @@ layout: section
 
 # Open Questions
 
-<v-clicks>
-
-- **Extraction:** Is LLM-for-everything the right default, or should we invest in per-source-type extractors (regex for regulators, NER for courts, LLM for news)?
-- **Matching:** Should matching be a two-stage pipeline (fuzzy filter → LLM re-rank) to reduce Bedrock costs?
-- **Association:** Does case association even need AI? Rule-based + embedding clustering might be sufficient and more predictable
-- **Model choice:** We defaulted to Claude via Bedrock. Is that the right model for all three tasks? Should extraction use a smaller/cheaper model (Haiku) while matching uses a larger one (Sonnet)?
-- **Evaluation:** How do we measure extraction quality before deployment? Do we need a labeled test set from the customer's past conduct matters?
-- **Cost sensitivity:** At scale (100+ sources, 500+ articles/week), does the per-article LLM cost become a problem? Where's the crossover point where training a custom model pays off?
-
-</v-clicks>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.25rem;">
+  <div style="padding: 0.5rem 0.75rem; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 6px; font-size: 0.8rem; line-height: 1.5;">
+    <strong style="color: #a78bfa;">Extraction</strong><br/>
+    <span style="color: #8b949e;">LLM for everything, or per-source extractors?</span>
+  </div>
+  <div style="padding: 0.5rem 0.75rem; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 6px; font-size: 0.8rem; line-height: 1.5;">
+    <strong style="color: #a78bfa;">Matching</strong><br/>
+    <span style="color: #8b949e;">Two-stage pipeline (fuzzy → LLM) to cut cost?</span>
+  </div>
+  <div style="padding: 0.5rem 0.75rem; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 6px; font-size: 0.8rem; line-height: 1.5;">
+    <strong style="color: #a78bfa;">Association</strong><br/>
+    <span style="color: #8b949e;">Does this even need AI? Rules + embeddings?</span>
+  </div>
+  <div style="padding: 0.5rem 0.75rem; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 6px; font-size: 0.8rem; line-height: 1.5;">
+    <strong style="color: #00d4ff;">Model choice</strong><br/>
+    <span style="color: #8b949e;">Same model for all 3 tasks? Haiku vs Sonnet?</span>
+  </div>
+  <div style="padding: 0.5rem 0.75rem; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 6px; font-size: 0.8rem; line-height: 1.5;">
+    <strong style="color: #00d4ff;">Evaluation</strong><br/>
+    <span style="color: #8b949e;">How to measure quality? Need a labeled test set?</span>
+  </div>
+  <div style="padding: 0.5rem 0.75rem; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 6px; font-size: 0.8rem; line-height: 1.5;">
+    <strong style="color: #00d4ff;">Cost at scale</strong><br/>
+    <span style="color: #8b949e;">When does training a custom model pay off?</span>
+  </div>
+</div>
