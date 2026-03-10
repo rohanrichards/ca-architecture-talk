@@ -84,159 +84,184 @@ Three decision points, three different problems
 layout: two-cols
 ---
 
-# AI Decision 1: Extraction
+# Extraction
 
-Given raw article text, extract **names**, **actions**, **context**, and **identifying details**.
+Extract **names**, **actions**, and **context** from raw article text.
 
 <v-clicks>
 
-- Articles vary wildly — regulatory notices, court decisions, news stories
-- Oblique references: "a Sydney-based accountant" without naming them directly
-- Need rich profiles: name + employer + location + role + registration numbers
-- Structured output required for downstream matching
+- Source formats vary wildly
+- Oblique references common
+- Need rich profiles, not just names
+- Structured output for matching
 
 </v-clicks>
 
 ::right::
 
-## The Options
+<div style="margin-top: 3.5rem;"></div>
 
 <v-clicks>
 
-- **LLM (Claude via Bedrock)** — handles unstructured text, varied formats, oblique references. Expensive per-call but flexible
-- **NER models (spaCy, BERT-NER)** — fast, cheap, good at name extraction. Struggles with context and oblique references
-- **Regex / rule-based** — works for structured regulatory notices (TPB, ATO). Breaks on news articles
-- **Hybrid** — regex for structured sources, LLM for unstructured?
+- **LLM (Claude)** — all formats, expensive
+- **NER (spaCy/BERT)** — fast, names only
+- **Regex** — structured sources only
+- **Hybrid** — regex + LLM by source?
 
 </v-clicks>
+
+<div style="margin-top: 1.5rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
+  <strong>Proposed:</strong> LLM for everything — one model, all formats, no per-source logic
+</div>
 
 ---
 
-# Extraction: Why We Proposed LLM
+# Extraction: LLM vs Alternatives
 
-<GlowCard>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.5rem;">Why LLM</div>
+    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
+      ▸ One model handles all source formats<br/>
+      ▸ Extracts context, not just names<br/>
+      ▸ ~$0.01-0.05/article via Bedrock<br/>
+      ▸ ~$2-20/mo at PoC volume
+    </div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Counter-argument</div>
+    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
+      ▸ Fine-tuned BERT-NER: 80% coverage at 1/100th cost<br/>
+      ▸ Regex handles structured regulators trivially<br/>
+      ▸ Hybrid = less LLM spend, same coverage?
+    </div>
+  </div>
+</div>
 
-The sources are too varied for a single traditional approach. Regulatory notices have predictable structure (regex could work). Court decisions have legal language (NER could work). News articles are free-form (only LLM handles reliably).
-
-</GlowCard>
-
-<v-clicks>
-
-- **LLM advantage:** one model handles all source formats. No per-source extraction logic
-- **LLM advantage:** extracts *context* (employer, location, role) — not just names. NER gives you the name, LLM gives you the profile
-- **LLM cost:** ~$0.01-0.05 per article via Bedrock. At 50-100 articles/week, ~$2-20/month
-- **Counter-argument:** a fine-tuned BERT-NER model trained on regulatory text could handle 80% of sources at 1/100th the cost. But requires training data and maintenance
-
-</v-clicks>
-
-<div style="margin-top: 1rem; padding: 0.75rem 1rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 8px 8px 0; font-size: 0.95rem;">
-  💬 <strong>Discussion:</strong> Is the flexibility worth the per-call cost? Would a hybrid approach (regex for regulators, LLM for news) reduce costs without losing coverage?
+<div style="margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.85rem;">
+  💬 Is LLM-for-everything the right default, or should we invest in per-source extractors?
 </div>
 
 ---
 layout: two-cols
 ---
 
-# AI Decision 2: Matching
+# Matching
 
-Given an extracted name + profile, find the matching Chartered Accountant in Salesforce.
+Match extracted profiles against **Salesforce CRM** members.
 
 <v-clicks>
 
-- Not just name lookup — "John Smith" returns hundreds
-- Need to match against: name variations, employer, location, registration status, specialisations
-- Common names require stacked signals for confidence
-- Must handle: abbreviations, maiden names, misspellings
+- "John Smith" returns hundreds
+- Need compound signals for confidence
+- Abbreviations, maiden names, typos
+- Context narrows common names
 
 </v-clicks>
 
 ::right::
 
-## The Options
+<div style="margin-top: 3.5rem;"></div>
 
 <v-clicks>
 
-- **LLM (Claude via Bedrock)** — reasons holistically about article profile vs CRM profile. Natural language understanding of context
-- **Fuzzy string matching** — Levenshtein, Jaro-Winkler. Fast, deterministic. Good for typos, bad for "context" matching
-- **Embedding similarity** — encode profiles as vectors, cosine similarity. Good for semantic matching but needs embeddings infrastructure
-- **ML classifier** — trained on past confirmed matches. High accuracy but needs labeled training data
+- **LLM (Claude)** — holistic reasoning
+- **Fuzzy strings** — Jaro-Winkler, fast
+- **Embeddings** — cosine similarity
+- **ML classifier** — needs training data
 
 </v-clicks>
+
+<div style="margin-top: 1.5rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
+  <strong>Proposed:</strong> LLM reasons over name + employer + location + role = confidence
+</div>
 
 ---
 
-# Matching: Why We Proposed LLM
+# Matching: LLM vs Alternatives
 
-<GlowCard>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.5rem;">Why LLM</div>
+    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
+      ▸ Compound reasoning across weak signals<br/>
+      ▸ "former Deloitte partner" narrows instantly<br/>
+      ▸ Explainable: <em>why</em> it matched
+    </div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Counter-argument</div>
+    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
+      ▸ Embeddings: cheaper, faster, semantic<br/>
+      ▸ Two-stage: fuzzy filter 500K → 10, then LLM<br/>
+      ▸ 90% accuracy at 10% cost?
+    </div>
+  </div>
+</div>
 
-The matching problem is fundamentally about *reasoning over multiple weak signals*, not pattern matching. "John Smith, a Sydney accountant" + Salesforce record "Jonathan Smith, NSW, Big4 firm" — is that the same person? LLM can reason about it. Levenshtein can't.
-
-</GlowCard>
-
-<v-clicks>
-
-- **LLM advantage:** compound reasoning — name + employer + location + role = confidence score. Not achievable with string distance alone
-- **LLM advantage:** handles context from the article: "the former partner at Deloitte" narrows a common name instantly
-- **Embedding alternative:** encode both profiles as embeddings, use cosine similarity. Cheaper, faster, but loses the *explainability* — why did it match?
-- **Hybrid possibility:** fuzzy string match as a first pass (filter 500K members to 10 candidates), then LLM for final ranking
-
-</v-clicks>
-
-<div style="margin-top: 1rem; padding: 0.75rem 1rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 8px 8px 0; font-size: 0.95rem;">
-  💬 <strong>Discussion:</strong> Is LLM reasoning overkill? Could a two-stage pipeline (fuzzy filter → embedding re-rank) achieve 90% of the accuracy at 10% of the cost?
+<div style="margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.85rem;">
+  💬 Is LLM reasoning overkill? Could fuzzy filter → embedding re-rank do the job?
 </div>
 
 ---
 layout: two-cols
 ---
 
-# AI Decision 3: Case Association
+# Case Association
 
-Group independent findings into **potential cases** — "these 3 articles from different sources are about the same person/matter."
+Group findings into **potential cases** — same person, different sources.
 
 <v-clicks>
 
-- Findings arrive over time — not all at once
-- Same matter may appear on TPB, then ASIC, then AFR weeks apart
-- Need temporal and contextual reasoning
-- Cross-run accumulation — new findings re-evaluated against history
+- Findings arrive over time
+- Same matter across TPB → ASIC → AFR
+- Temporal and contextual reasoning
+- Cross-run accumulation
 
 </v-clicks>
 
 ::right::
 
-## The Options
+<div style="margin-top: 3.5rem;"></div>
 
 <v-clicks>
 
-- **LLM reasoning** — reads all findings, reasons about connections. Expensive at scale but handles nuance
-- **Graph-based clustering** — build a graph of name/entity co-occurrence, cluster connected components. No AI needed
-- **Embedding clustering** — embed findings, cluster with DBSCAN/HDBSCAN. Good for semantic similarity
-- **Rule-based** — same name + same timeframe = same case. Simple, brittle, but surprisingly effective for 80% of cases
+- **LLM** — reasons about connections
+- **Graph clustering** — co-occurrence
+- **Embeddings** — HDBSCAN clusters
+- **Rules** — name + timeframe = case
 
 </v-clicks>
+
+<div style="margin-top: 1.5rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.8rem;">
+  <strong>Proposed:</strong> Rules first, LLM only for ambiguous cases
+</div>
 
 ---
 
 # Association: The Weakest LLM Case?
 
-<GlowCard>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.5rem;">Where LLM helps</div>
+    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
+      ▸ Ambiguous names across sources<br/>
+      ▸ Cross-matter references<br/>
+      ▸ Articles referencing cases without naming
+    </div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Counter-argument</div>
+    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
+      ▸ Rules handle ~80% of cases trivially<br/>
+      ▸ Embeddings catch what rules miss<br/>
+      ▸ Deterministic = cheaper, faster, predictable
+    </div>
+  </div>
+</div>
 
-This is arguably where LLM is hardest to justify. Most case association is straightforward: same name, overlapping timeframe, related sources. A graph-based or rule-based approach handles the majority of cases.
-
-</GlowCard>
-
-<v-clicks>
-
-- **Rule-based baseline:** same extracted name + within 90 days + related source types → associate. Handles ~80% of cases
-- **LLM adds value for:** ambiguous names, cross-matter connections, when one article references another's case details without naming the person
-- **Embedding clustering:** encode findings, run HDBSCAN. Catches semantic similarity the rules miss. Cheaper than LLM
-- **Proposed approach:** Rule-based first pass, LLM for ambiguous cases only — reduces LLM calls by ~80%
-
-</v-clicks>
-
-<div style="margin-top: 1rem; padding: 0.75rem 1rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 8px 8px 0; font-size: 0.95rem;">
-  💬 <strong>Discussion:</strong> Should we even use LLM here? A deterministic approach (rules + embeddings) is cheaper, faster, and more predictable. LLM adds marginal value at significant cost.
+<div style="margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.85rem;">
+  💬 Should we even use LLM here? Rules + embeddings might be sufficient.
 </div>
 
 ---
@@ -251,33 +276,33 @@ Why serverless over AgentCore
 
 # The Proposed Stack
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
-  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
-    <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.75rem;">Orchestration</div>
-    <div style="font-size: 0.95rem; line-height: 1.8;">
-      <strong>EventBridge</strong> — daily/hourly triggers<br/>
-      <strong>Step Functions</strong> — pipeline orchestration with retries
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Orchestration</div>
+    <div style="font-size: 0.85rem; line-height: 1.6;">
+      <strong>EventBridge</strong> — cron triggers<br/>
+      <strong>Step Functions</strong> — pipeline + retries
     </div>
   </div>
-  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
-    <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.75rem;">Scraping</div>
-    <div style="font-size: 0.95rem; line-height: 1.8;">
-      <strong>Lambda</strong> — ~15 simple public HTML sites<br/>
-      <strong>Fargate + Playwright</strong> — authenticated / JS-heavy sites
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Scraping</div>
+    <div style="font-size: 0.85rem; line-height: 1.6;">
+      <strong>Lambda</strong> — ~15 public HTML sites<br/>
+      <strong>Fargate + Playwright</strong> — auth / JS sites
     </div>
   </div>
-  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
-    <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #7c3aed; margin-bottom: 0.75rem;">AI Processing</div>
-    <div style="font-size: 0.95rem; line-height: 1.8;">
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #7c3aed; margin-bottom: 0.5rem;">AI Processing</div>
+    <div style="font-size: 0.85rem; line-height: 1.6;">
       <strong>Bedrock (Claude)</strong> — extraction + matching<br/>
-      <strong>Textract</strong> — PDF extraction (ASIC Gazettes)
+      <strong>Textract</strong> — PDF extraction
     </div>
   </div>
-  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
-    <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.75rem;">Storage & UI</div>
-    <div style="font-size: 0.95rem; line-height: 1.8;">
-      <strong>S3 + DynamoDB</strong> — content, state, audit trail<br/>
-      <strong>React SPA + Cognito</strong> — review dashboard
+  <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 1rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Storage & UI</div>
+    <div style="font-size: 0.85rem; line-height: 1.6;">
+      <strong>S3 + DynamoDB</strong> — content, state, audit<br/>
+      <strong>React SPA + Cognito</strong> — review UI
     </div>
   </div>
 </div>
