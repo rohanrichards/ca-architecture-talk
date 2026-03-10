@@ -167,10 +167,10 @@ Three decision points, three different problems
   <div style="background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 8px; padding: 0.75rem 1rem;">
     <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.4rem;">The Options</div>
     <div style="font-size: 0.8rem; line-height: 1.6; color: #8b949e;">
-      ▸ <strong style="color: #e6edf3;">LLM (Claude)</strong> — holistic reasoning<br/>
-      ▸ <strong style="color: #e6edf3;">Fuzzy strings</strong> — Jaro-Winkler, fast<br/>
-      ▸ <strong style="color: #e6edf3;">Embeddings</strong> — cosine similarity<br/>
-      ▸ <strong style="color: #e6edf3;">ML classifier</strong> — needs training data
+      ▸ <strong style="color: #e6edf3;">LLMs</strong> — holistic reasoning, expensive<br/>
+      ▸ <strong style="color: #e6edf3;">Probabilistic linkage</strong> — Splink, Dedupe<br/>
+      ▸ <strong style="color: #e6edf3;">Bi-encoder + cross-encoder</strong> pipeline<br/>
+      ▸ <strong style="color: #e6edf3;">AWS Entity Resolution</strong> — managed
     </div>
   </div>
 </div>
@@ -181,29 +181,39 @@ Three decision points, three different problems
 
 ---
 
-# Matching: LLM vs Alternatives
+# The Non-LLM Matching Landscape
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
-  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 1rem;">
-    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.5rem;">Why LLM</div>
-    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
-      ▸ Compound reasoning across weak signals<br/>
-      ▸ "former Deloitte partner" narrows instantly<br/>
-      ▸ Explainable: <em>why</em> it matched
-    </div>
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.5rem;">Entity resolution is a solved problem — with mature, production-proven tools.</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem;">
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">Splink</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Probabilistic linkage (Fellegi-Sunter). <strong style="color: #e6edf3;">No labeled data needed.</strong> 500K records in seconds. UK MoJ, NHS, ABS Census.</div>
   </div>
-  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 1rem;">
-    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Counter-argument</div>
-    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
-      ▸ Embeddings: cheaper, faster, semantic<br/>
-      ▸ Two-stage: fuzzy filter 500K → 10, then LLM<br/>
-      ▸ 90% accuracy at 10% cost?
-    </div>
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">Bi-Encoder → Cross-Encoder</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Two-stage: fast vector retrieval (top 100), then precise pairwise scoring. <strong style="color: #e6edf3;">Sub-millisecond at 500K.</strong></div>
+  </div>
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">EnsembleLink</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Zero-shot record matching. <strong style="color: #e6edf3;">No training data or API calls.</strong> Handles nicknames, abbreviations, acronyms from pretrained knowledge.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">AWS Entity Resolution</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Managed service. $0.25/1K records. ML or rule-based modes. Black box but zero infra.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">Phonetic Matching</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Double Metaphone, Beider-Morse. Handles name variations across origins. Use as a Splink comparison level.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">DITTO</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Deep learning entity matching. Serializes records as text for BERT. SOTA on benchmarks. Needs labeled data.</div>
   </div>
 </div>
 
-<div style="margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.85rem;">
-  💬 Is LLM reasoning overkill? Could fuzzy filter → embedding re-rank do the job?
+<div style="margin-top: 0.5rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.75rem;">
+  💬 Alternative pipeline: <strong>Splink</strong> (probabilistic, no labels) + <strong>Double Metaphone</strong> (name variations) + <strong>blocking</strong> on employer/location. Zero LLM cost.
 </div>
 
 ---
