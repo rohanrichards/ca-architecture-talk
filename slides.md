@@ -341,6 +341,48 @@ AWS proposed AgentCore (Runtime, Gateway, Memory, Identity) + QuickSuite. The ca
 </div>
 
 ---
+
+# The Review UI
+
+Conduct staff need a **work queue**, not a chatbot. Same UX pattern as content moderation tools.
+
+<div style="display: flex; gap: 1rem; margin-top: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;">
+  <div style="flex: 1; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.75rem;">Queue View</div>
+    <div style="line-height: 2;">
+      <div style="padding: 0.3rem 0.5rem; background: rgba(124, 58, 237, 0.1); border-radius: 4px; margin-bottom: 0.4rem;">▸ John Smith (3) <span style="color: #ff5f57;">HIGH</span></div>
+      <div style="padding: 0.3rem 0.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 4px; margin-bottom: 0.4rem;">▸ Jane Doe (1) <span style="color: #febc2e;">MED</span></div>
+      <div style="padding: 0.3rem 0.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 4px;">▸ R. Johnson (2) <span style="color: #28c840;">LOW</span></div>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; color: #00d4ff; font-size: 1.5rem;">→</div>
+  <div style="flex: 1.5; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.75rem;">Case Detail</div>
+    <div style="line-height: 1.8;">
+      <div><strong style="color: #e6edf3;">John Smith</strong> — 3 findings</div>
+      <div style="color: #8b949e;">Finding 1: TPB media release</div>
+      <div style="color: #8b949e;">Finding 2: ASIC disciplinary</div>
+      <div style="color: #8b949e;">Finding 3: AFR article</div>
+      <div style="margin-top: 0.5rem;">SF Match: Member #12345 <span style="color: #28c840;">92%</span></div>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; color: #00d4ff; font-size: 1.5rem;">→</div>
+  <div style="flex: 0.8; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
+    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.75rem;">Actions</div>
+    <div style="line-height: 2.2;">
+      <div style="padding: 0.2rem 0.5rem; background: rgba(40, 200, 64, 0.15); border-radius: 4px; margin-bottom: 0.3rem; color: #28c840;">✓ Confirm</div>
+      <div style="padding: 0.2rem 0.5rem; background: rgba(255, 95, 87, 0.15); border-radius: 4px; margin-bottom: 0.3rem; color: #ff5f57;">✗ Dismiss</div>
+      <div style="padding: 0.2rem 0.5rem; background: rgba(0, 212, 255, 0.1); border-radius: 4px; margin-bottom: 0.3rem; color: #00d4ff;">✎ Adjust</div>
+      <div style="padding: 0.2rem 0.5rem; background: rgba(124, 58, 237, 0.15); border-radius: 4px; color: #a78bfa;">⑂ Split</div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 1rem; font-size: 0.85rem; color: #8b949e; font-family: 'Inter', sans-serif;">
+  React SPA + API Gateway + Lambda + Cognito + DynamoDB — <strong style="color: #e6edf3;">~$0-5/mo</strong> at PoC scale
+</div>
+
+---
 layout: section
 ---
 
