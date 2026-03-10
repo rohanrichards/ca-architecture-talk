@@ -113,30 +113,39 @@ Three decision points, three different problems
 
 ---
 
-# Extraction: LLM vs Alternatives
+# The Non-LLM Extraction Landscape
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
-  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 1rem;">
-    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.5rem;">Why LLM</div>
-    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
-      ▸ One model handles all source formats<br/>
-      ▸ Extracts context, not just names<br/>
-      ▸ ~$0.01-0.05/article via Bedrock<br/>
-      ▸ ~$2-20/mo at PoC volume
-    </div>
+<div style="font-size: 0.95rem; color: #8b949e; margin: -0.5rem 0 0.5rem;">There's more than regex and BERT. The field has moved significantly.</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem;">
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">GLiNER</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Zero-shot NER. Describe entities in English, no training. <strong style="color: #e6edf3;">Beats ChatGPT</strong> on NER benchmarks. Runs on CPU.</div>
   </div>
-  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 1rem;">
-    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #00d4ff; margin-bottom: 0.5rem;">Counter-argument</div>
-    <div style="font-size: 0.85rem; line-height: 1.7; color: #8b949e;">
-      ▸ Fine-tuned BERT-NER: 80% coverage at 1/100th cost<br/>
-      ▸ Regex handles structured regulators trivially<br/>
-      ▸ Hybrid = less LLM spend, same coverage?
-    </div>
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">NuNER</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">125M params. <strong style="color: #e6edf3;">Competes with GPT-4</strong> given 12 examples per entity type. 56x smaller than UniversalNER.</div>
+  </div>
+  <div style="background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #a78bfa; margin-bottom: 0.3rem;">ReLiK</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Relation extraction without LLMs. Extracts <strong style="color: #e6edf3;">"Person — suspended by — ICAI"</strong> links in one pass.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">DeBERTa-v3</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Strictly better than BERT for NER. 22M params beats RoBERTa-Base (125M). Fine-tune on domain data.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">Flair</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">BiLSTM-CRF with stacked embeddings. Better than spaCy on small datasets. GPU recommended.</div>
+  </div>
+  <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; padding: 0.6rem 0.75rem;">
+    <div style="font-size: 0.7rem; font-weight: 700; color: #00d4ff; margin-bottom: 0.3rem;">Spark NLP Legal</div>
+    <div style="font-size: 0.7rem; line-height: 1.5; color: #8b949e;">Pre-trained legal NER models. Enterprise license. 10K+ models including finance/law domains.</div>
   </div>
 </div>
 
-<div style="margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.85rem;">
-  💬 Is LLM-for-everything the right default, or should we invest in per-source extractors?
+<div style="margin-top: 0.5rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.75rem;">
+  💬 Alternative pipeline: <strong>GLiNER</strong> (zero-shot entities) + <strong>spaCy EntityRuler</strong> (reg numbers, dates) + <strong>ReLiK</strong> (relationships). No training data needed.
 </div>
 
 ---
@@ -314,47 +323,6 @@ AWS proposed AgentCore (Runtime, Gateway, Memory, Identity) + QuickSuite. The ca
 - **Cost:** AgentCore + QuickSuite ($20-40/user/mo + $250 base) vs Lambda/Fargate (pennies) + Bedrock (main cost)
 
 </v-clicks>
-
----
-
-# Phased Implementation
-
-<div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-  <div style="flex: 1; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-top: 3px solid #00d4ff; border-radius: 0 0 10px 10px; padding: 1.25rem;">
-    <div style="font-weight: 700; margin-bottom: 0.5rem;">Phase 2</div>
-    <div style="font-size: 0.8rem; color: #8b949e; margin-bottom: 0.75rem;">2-4 weeks</div>
-    <div style="font-size: 0.85rem; line-height: 1.6;">
-      Monitoring agent<br/>
-      5-6 public AU sources<br/>
-      Bedrock extraction<br/>
-      Findings store (S3/DynamoDB)
-    </div>
-  </div>
-  <div style="flex: 1; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-top: 3px solid #7c3aed; border-radius: 0 0 10px 10px; padding: 1.25rem;">
-    <div style="font-weight: 700; margin-bottom: 0.5rem;">Phase 3</div>
-    <div style="font-size: 0.8rem; color: #8b949e; margin-bottom: 0.75rem;">2.5-4 weeks</div>
-    <div style="font-size: 0.85rem; line-height: 1.6;">
-      Salesforce matching<br/>
-      Fuzzy name resolution<br/>
-      Case association logic<br/>
-      Confidence scoring
-    </div>
-  </div>
-  <div style="flex: 1; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-top: 3px solid #00d4ff; border-radius: 0 0 10px 10px; padding: 1.25rem;">
-    <div style="font-weight: 700; margin-bottom: 0.5rem;">Phase 4</div>
-    <div style="font-size: 0.8rem; color: #8b949e; margin-bottom: 0.75rem;">3-4 weeks</div>
-    <div style="font-size: 0.85rem; line-height: 1.6;">
-      React SPA review UI<br/>
-      Cognito auth<br/>
-      Triage workflow<br/>
-      Salesforce case creation
-    </div>
-  </div>
-</div>
-
-<div style="margin-top: 1.5rem; text-align: center; font-size: 1rem; color: #8b949e;">
-  Total: <strong style="color: #e6edf3;">6-10 weeks</strong> (Phases 3+4 in parallel) &nbsp;|&nbsp; Main cost driver: <strong style="color: #00d4ff;">Bedrock inference</strong>
-</div>
 
 ---
 
