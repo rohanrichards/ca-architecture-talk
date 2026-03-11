@@ -11,6 +11,11 @@
   "dependencies": {
     "@slidev/cli": "^52.14.1",
     "@slidev/theme-default": "^0.25.0",
-    "@slidev/theme-seriph": "^0.25.0"
+    "@slidev/theme-seriph": "^0.25.0",
+    "flubber": "^0.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.4.0",
+    "vitest": "^4.0.18"
   }
 }
