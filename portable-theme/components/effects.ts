@@ -9,6 +9,52 @@
  * Blur: selective edge blur via feGaussianBlur (Noise & Blur PDF).
  */
 
+/**
+ * Interpolate between two hex colours at position t (0-1).
+ */
+export function lerpColour(colA: string, colB: string, t: number): string {
+  const parse = (hex: string) => {
+    const h = hex.replace('#', '')
+    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]
+  }
+  const [r1, g1, b1] = parse(colA)
+  const [r2, g2, b2] = parse(colB)
+  const r = Math.round(r1 + (r2 - r1) * t)
+  const g = Math.round(g1 + (g2 - g1) * t)
+  const bl = Math.round(b1 + (b2 - b1) * t)
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${bl.toString(16).padStart(2, '0')}`
+}
+
+/**
+ * Generate an array of fill colours for morph steps.
+ * Each step samples the current→catalyst→future narrative at its position.
+ * Catalyst occupies the narrow middle band (~10%), matching the gradient spec.
+ */
+export function generateStepFills(
+  current: string,
+  catalyst: string,
+  future: string,
+  stepCount: number,
+): string[] {
+  const fills: string[] = []
+  for (let i = 0; i < stepCount; i++) {
+    const t = stepCount === 1 ? 0 : i / (stepCount - 1)
+    let colour: string
+    if (t <= 0.45) {
+      // Current → catalyst
+      colour = lerpColour(current, catalyst, t / 0.45)
+    } else if (t <= 0.55) {
+      // Catalyst band
+      colour = catalyst
+    } else {
+      // Catalyst → future
+      colour = lerpColour(catalyst, future, (t - 0.55) / 0.45)
+    }
+    fills.push(colour)
+  }
+  return fills
+}
+
 interface GradientOptions {
   id: string
   current: string

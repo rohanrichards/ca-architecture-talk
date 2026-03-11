@@ -292,3 +292,120 @@ Click the shape:
   :duration="1500"
   size="400px"
 />
+
+---
+
+## Filled Variant — Stacked Layers
+
+<div class="grid grid-cols-3 gap-4">
+  <BrandShape from="organic-3" to="organic-1" scheme="lime" variant="filled" size="280px" :steps="10" />
+  <BrandShape from="organic-1" to="organic-3" scheme="pink" variant="filled" size="280px" :steps="10" />
+  <BrandShape from="organic-2" to="organic-4" scheme="blue" variant="filled" size="280px" :steps="10" />
+</div>
+
+---
+
+## Filled — Cross-Family
+
+<BrandShape
+  from="primitive-2"
+  to="angular-3"
+  current="pink-dark"
+  catalyst="vermillion"
+  future="blue-light"
+  variant="filled"
+  size="500px"
+  :steps="12"
+/>
+
+---
+
+## Filled — Angular Shapes
+
+<div class="grid grid-cols-3 gap-4">
+  <BrandShape from="angular-1" to="angular-3" scheme="vermillion" variant="filled" size="280px" :steps="8" />
+  <BrandShape from="angular-2" to="angular-4" scheme="brown" variant="filled" size="280px" :steps="8" />
+  <BrandShape from="angular-3" to="angular-1" scheme="lime" variant="filled" size="280px" :steps="8" />
+</div>
+
+---
+class: lime-light
+---
+
+## Filled on Coloured Background
+
+<BrandShape
+  from="organic-1"
+  to="organic-3"
+  current="pink-dark"
+  catalyst="pink"
+  future="vermillion"
+  variant="filled"
+  size="500px"
+  :steps="10"
+/>
+
+---
+class: blue-dark
+---
+
+## Filled on Blue Dark
+
+<BrandShape
+  from="organic-2"
+  to="angular-1"
+  current="vermillion-light"
+  catalyst="pink-light"
+  future="lime-light"
+  variant="filled"
+  size="500px"
+  :steps="10"
+/>
+
+---
+
+## Gradient Variant — Cropped Hero
+
+<BrandShape
+  from="organic-1"
+  to="organic-3"
+  current="brown"
+  catalyst="pink-light"
+  future="blue"
+  variant="gradient"
+  :crop="true"
+  size="100%"
+  :steps="8"
+/>
+
+---
+
+## Gradient — Cropped Pink
+
+<BrandShape
+  from="organic-2"
+  to="organic-4"
+  current="pink"
+  catalyst="vermillion"
+  future="brown-dark"
+  variant="gradient"
+  :crop="true"
+  size="100%"
+  :steps="10"
+/>
+
+---
+
+## Filled — Animated Build
+
+<BrandShape
+  from="primitive-1"
+  to="angular-2"
+  scheme="blue"
+  variant="filled"
+  :animate="true"
+  trigger="enter"
+  :duration="2000"
+  size="500px"
+  :steps="10"
+/>
