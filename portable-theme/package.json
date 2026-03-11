@@ -1,0 +1,23 @@
+{
+  "name": "slidev-theme-portable",
+  "version": "0.1.0",
+  "description": "Slidev theme for Portable's brand refresh",
+  "keywords": [
+    "slidev-theme",
+    "slidev"
+  ],
+  "engines": {
+    "slidev": ">=v0.47.0"
+  },
+  "slidev": {
+    "defaults": {
+      "fonts": {
+        "sans": "Inter Display,Inter",
+        "serif": "Inter Display,Inter",
+        "mono": "Roboto Mono",
+        "local": "Inter Display,Inter",
+        "weights": "400,500,600,700"
+      }
+    }
+  }
+}

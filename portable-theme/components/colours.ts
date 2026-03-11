@@ -59,3 +59,23 @@ export function resolveScheme(family: ColourFamily): GradientColours {
     future: colourMap[`${family}-light`],
   }
 }
+
+/**
+ * Approved text colour pairings from the brand guidelines.
+ * Each colour-scheme background has a specific cross-family
+ * text colour for maximum readability.
+ */
+const textPairings: Record<ColourFamily, { onLight: string; onDark: string }> = {
+  lime:       { onLight: colourMap['pink-dark'],       onDark: colourMap['pink-light'] },
+  pink:       { onLight: colourMap['lime-dark'],       onDark: colourMap['lime-light'] },
+  blue:       { onLight: colourMap['vermillion-dark'], onDark: colourMap['vermillion-light'] },
+  vermillion: { onLight: colourMap['lime-dark'],       onDark: colourMap['lime-light'] },
+  brown:      { onLight: colourMap['lime-dark'],       onDark: colourMap['lime-light'] },
+}
+
+/**
+ * Returns the approved text colours for a scheme's light and dark panels.
+ */
+export function resolveTextPairing(family: ColourFamily) {
+  return textPairings[family]
+}

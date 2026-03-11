@@ -1,0 +1,108 @@
+/*
+ * ============================================================
+ * PORTABLE BRAND TOKENS
+ * ============================================================
+ *
+ * Source: Portable brand refresh (Figma)
+ * Extracted from: colour.pdf, typography.pdf, typography-layers.pdf, logomark.pdf
+ *
+ * TYPOGRAPHY
+ * ----------
+ * Three typefaces in the system:
+ *   - Inter Display: Hero/display headings (optical size variant of Inter)
+ *   - Inter: Body text, everyday documents
+ *   - Roboto Modo: Monospace, numbers, code
+ *
+ * COLOUR & TYPOGRAPHY PHILOSOPHY
+ * ------------------------------
+ * The brand avoids black typography entirely. Instead, it pairs
+ * "hyper-chromatic" colour variations — dark backgrounds get light
+ * complementary type, light backgrounds get dark complementary type.
+ * This creates unexpected, vibrant pairings that "communicate the
+ * catalyst of change."
+ *
+ * Each colour family has a dark and light variant. The type colour
+ * is always drawn from a DIFFERENT colour family than the background.
+ *
+ * CANVAS
+ * ------
+ * The primary palette centres on WHITE. White is the default canvas,
+ * hyper-chromatic colours are accents.
+ *
+ * LOGOMARK
+ * --------
+ * Existing logo ("Portable/") and monogram ("P/") are retained unchanged.
+ * The slash is a distinctive brand element.
+ * ============================================================
+ */
+
+:root {
+  /* ──────────────────────────────────────────────
+   * TYPOGRAPHY
+   * ────────────────────────────────────────────── */
+  --portable-font-display: 'Inter Display', 'Inter', sans-serif;
+  --portable-font-body: 'Inter', sans-serif;
+  --portable-font-mono: 'Roboto Mono', monospace;
+
+  /* ──────────────────────────────────────────────
+   * CANVAS
+   * Default presentation background is white.
+   * ────────────────────────────────────────────── */
+  --portable-white: #FFFFFF;
+
+  /* ──────────────────────────────────────────────
+   * PRIMARY COLOURS (mid-tones)
+   * The core hyper-chromatic accents. These are the
+   * "hero" values — used for bold graphic elements,
+   * not typically as slide backgrounds or body text.
+   * ────────────────────────────────────────────── */
+  --portable-lime: #BEF958;
+  --portable-brown: #81330C;
+  --portable-pink: #FF38C0;
+  --portable-vermillion: #EE4811;
+  --portable-blue: #4B01E6;
+
+  /* ──────────────────────────────────────────────
+   * COLOUR FAMILIES (dark + light variants)
+   * Each primary has calibrated darker and lighter
+   * variants for backgrounds and type pairings.
+   * ────────────────────────────────────────────── */
+
+  /* Blue */
+  --portable-blue-dark: #170045;
+  --portable-blue-light: #DEDAFF;
+
+  /* Vermillion */
+  --portable-vermillion-dark: #471605;
+  --portable-vermillion-light: #FFCFBF;
+
+  /* Brown */
+  --portable-brown-dark: #341405;
+  --portable-brown-light: #EFD8C2;
+
+  /* Pink */
+  --portable-pink-dark: #400E30;
+  --portable-pink-light: #FFC3F6;
+
+  /* Lime */
+  --portable-lime-dark: #263212;
+  --portable-lime-light: #EDFFCC;
+
+  /* ──────────────────────────────────────────────
+   * TYPE-ON-COLOUR PAIRINGS
+   * These are the approved bg + text combinations.
+   * Dark bg → light type from a different family.
+   * Light bg → dark type from a different family.
+   *
+   * Blue Dark     → Vermillion Light (#FFCFBF)
+   * Blue Light    → Vermillion Dark  (#471605)
+   * Vermillion Dark → Lime Light     (#EDFFCC)
+   * Vermillion Light → Lime Dark     (#263212)
+   * Pink Dark     → Lime Light       (#EDFFCC)
+   * Pink Light    → Lime Dark        (#263212)
+   * Brown Dark    → Lime Light       (#EDFFCC)
+   * Brown Light   → Lime Dark        (#263212)
+   * Lime Dark     → Pink Light       (#FFC3F6)
+   * Lime Light    → Pink Dark        (#400E30)
+   * ────────────────────────────────────────────── */
+}

@@ -63,12 +63,9 @@ interface GradientOptions {
 }
 
 /**
- * SVG linear gradient approximating the angular/conic gradient
- * from the brand guidelines. Three-colour narrative with minimal catalyst.
- *
- * Uses userSpaceOnUse so all morph steps share the same gradient mapping
- * (otherwise each step's bounding box creates a different gradient,
- * breaking the consistent colour flow across the stacked layers).
+ * SVG linear gradient for the wireframe variant's stroke colour.
+ * Uses a simple diagonal sweep: current → catalyst → future.
+ * Only used for wireframe strokes — filled/gradient variants use CSS conic-gradient.
  */
 export function buildGradientDef(options: GradientOptions): string {
   const { id, current, catalyst, future } = options
@@ -78,6 +75,31 @@ export function buildGradientDef(options: GradientOptions): string {
   <stop offset="0.55" stop-color="${catalyst}" />
   <stop offset="1" stop-color="${future}" />
 </linearGradient>`
+}
+
+/**
+ * CSS conic-gradient string matching the brand's angular gradient style.
+ *
+ * The Figma brand exports use GRADIENT_ANGULAR (conic) gradients, not radial.
+ * Colours sweep around the shape centre creating natural colour bands.
+ *
+ * Stop positions derived from the brand's gradient examples.svg:
+ * - current: dominant, occupying the wide arc (~53% of sweep)
+ * - future: secondary colour band (~30%)
+ * - catalyst: narrow transitional accent (~17%)
+ *
+ * This produces the characteristic colour-sweep look from the brand guidelines,
+ * rather than the bright-center radial orb.
+ */
+export function buildConicGradientCSS(
+  current: string,
+  catalyst: string,
+  future: string,
+  angleDeg: number = 90,
+  centerX: number = 50,
+  centerY: number = 50,
+): string {
+  return `conic-gradient(from ${angleDeg}deg at ${centerX}% ${centerY}%, ${current} 0deg, ${future} 110deg, ${catalyst} 170deg, ${current} 360deg)`
 }
 
 /**

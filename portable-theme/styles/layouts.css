@@ -1,0 +1,230 @@
+/*
+ * ============================================================
+ * PORTABLE THEME — LAYOUT STYLES
+ * ============================================================
+ *
+ * White canvas by default. The brand's colour system is applied
+ * through colour-scheme classes (e.g. class="lime-dark") that
+ * set background + approved type colour pairings.
+ *
+ * Philosophy: no black typography. Coloured backgrounds use
+ * complementary type from a different colour family.
+ * ============================================================
+ */
+
+/* ──────────────────────────────────────────────
+ * BASE — white canvas, dark type
+ * ────────────────────────────────────────────── */
+.slidev-layout {
+  background: var(--portable-white);
+  color: var(--portable-lime-dark);
+  font-family: var(--portable-font-body);
+
+  h1 + p {
+    @apply -mt-2 opacity-50 mb-4;
+  }
+
+  p + h2, ul + h2, table + h2 {
+    @apply mt-10;
+  }
+
+  h1 {
+    @apply text-4xl mb-4 -ml-[0.05em];
+    font-family: var(--portable-font-display);
+  }
+
+  h2 {
+    @apply text-3xl;
+    font-family: var(--portable-font-display);
+  }
+
+  h3 {
+    @apply text-2xl;
+    font-family: var(--portable-font-display);
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-base;
+  }
+
+  h6 {
+    @apply text-sm pt-1 uppercase tracking-widest font-500 -ml-[0.05em];
+  }
+
+  h6:not(.opacity-100) {
+    @apply opacity-40;
+  }
+
+  code {
+    font-family: var(--portable-font-mono);
+  }
+
+  /* Inline code on white canvas — use lime-dark bg with pink-light text */
+  :not(pre) > code {
+    background: var(--portable-lime-dark);
+    color: var(--portable-pink-light);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25em;
+  }
+
+  /* Code blocks on white canvas */
+  pre {
+    background: var(--portable-lime-dark) !important;
+    color: var(--portable-pink-light) !important;
+  }
+}
+
+/* ──────────────────────────────────────────────
+ * FULL-BLEED OVERRIDES
+ *
+ * Slidev's base client CSS applies `px-14 py-10`
+ * (3.5rem / 2.5rem) to every .slidev-layout.
+ * Our edge-to-edge layouts must zero that out.
+ * ────────────────────────────────────────────── */
+.slidev-layout.diptych,
+.slidev-layout.triptych,
+.slidev-layout.hero,
+.slidev-layout.brand-left,
+.slidev-layout.brand-right,
+.slidev-layout.image-left,
+.slidev-layout.image-right {
+  padding: 0;
+}
+
+/* ──────────────────────────────────────────────
+ * LAYOUT-SPECIFIC STYLES
+ * ────────────────────────────────────────────── */
+.slidev-layout.cover,
+.slidev-layout.intro {
+  @apply h-full grid;
+
+  h1 {
+    @apply text-6xl leading-20;
+    font-family: var(--portable-font-display);
+  }
+}
+
+.slidev-layout.fact {
+  @apply text-center grid h-full;
+  h1 {
+    @apply text-8xl font-700;
+  }
+  h1 + p {
+    @apply font-700 text-2xl;
+  }
+}
+
+.slidev-layout.statement {
+  @apply text-center grid h-full;
+  h1 {
+    @apply text-6xl font-700;
+  }
+}
+
+.slidev-layout.quote {
+  @apply grid h-full;
+  h1 + p {
+    @apply mt-2;
+  }
+}
+
+.slidev-layout.section {
+  h1 {
+    @apply text-6xl font-500 leading-20;
+  }
+}
+
+/* ──────────────────────────────────────────────
+ * COLOUR SCHEME CLASSES
+ *
+ * Apply via Slidev frontmatter: `class: lime-dark`
+ * Each sets the approved bg + text pairing from
+ * the brand guidelines.
+ *
+ * Dark backgrounds → light complementary type
+ * Light backgrounds → dark complementary type
+ * ────────────────────────────────────────────── */
+
+/* Blue */
+.blue-dark {
+  background: var(--portable-blue-dark);
+  color: var(--portable-vermillion-light);
+}
+.blue-light {
+  background: var(--portable-blue-light);
+  color: var(--portable-vermillion-dark);
+}
+
+/* Vermillion */
+.vermillion-dark {
+  background: var(--portable-vermillion-dark);
+  color: var(--portable-lime-light);
+}
+.vermillion-light {
+  background: var(--portable-vermillion-light);
+  color: var(--portable-lime-dark);
+}
+
+/* Brown */
+.brown-dark {
+  background: var(--portable-brown-dark);
+  color: var(--portable-lime-light);
+}
+.brown-light {
+  background: var(--portable-brown-light);
+  color: var(--portable-lime-dark);
+}
+
+/* Pink */
+.pink-dark {
+  background: var(--portable-pink-dark);
+  color: var(--portable-lime-light);
+}
+.pink-light {
+  background: var(--portable-pink-light);
+  color: var(--portable-lime-dark);
+}
+
+/* Lime */
+.lime-dark {
+  background: var(--portable-lime-dark);
+  color: var(--portable-pink-light);
+}
+.lime-light {
+  background: var(--portable-lime-light);
+  color: var(--portable-pink-dark);
+}
+
+/* ──────────────────────────────────────────────
+ * CODE BLOCK OVERRIDES FOR LIGHT SCHEMES
+ *
+ * Light backgrounds make default code blocks unreadable.
+ * We flip to the same family's dark variant as the code
+ * background, with the approved light type colour.
+ * This keeps code blocks on-brand rather than falling
+ * back to generic dark/light.
+ * ────────────────────────────────────────────── */
+.blue-light pre, .blue-light code {
+  background: var(--portable-blue-dark) !important;
+  color: var(--portable-vermillion-light) !important;
+}
+.vermillion-light pre, .vermillion-light code {
+  background: var(--portable-vermillion-dark) !important;
+  color: var(--portable-lime-light) !important;
+}
+.brown-light pre, .brown-light code {
+  background: var(--portable-brown-dark) !important;
+  color: var(--portable-lime-light) !important;
+}
+.pink-light pre, .pink-light code {
+  background: var(--portable-pink-dark) !important;
+  color: var(--portable-lime-light) !important;
+}
+.lime-light pre, .lime-light code {
+  background: var(--portable-lime-dark) !important;
+  color: var(--portable-pink-light) !important;
+}

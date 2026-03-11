@@ -278,10 +278,12 @@ class: blue-dark
 />
 
 ---
+clicks: 1
+---
 
 ## BrandShape — Click to Morph
 
-Click the shape:
+Advance to play:
 
 <BrandShape
   from="primitive-1"
@@ -363,9 +365,10 @@ class: blue-dark
 />
 
 ---
+class: brown-dark
+---
 
-## Gradient Variant — Cropped Hero
-
+<div class="absolute inset-0">
 <BrandShape
   from="organic-1"
   to="organic-3"
@@ -377,11 +380,19 @@ class: blue-dark
   size="100%"
   :steps="8"
 />
+</div>
+
+<div class="absolute bottom-8 left-10 z-10">
+
+## Gradient — Cropped Hero
+
+</div>
 
 ---
+class: pink-dark
+---
 
-## Gradient — Cropped Pink
-
+<div class="absolute inset-0">
 <BrandShape
   from="organic-2"
   to="organic-4"
@@ -393,6 +404,13 @@ class: blue-dark
   size="100%"
   :steps="10"
 />
+</div>
+
+<div class="absolute bottom-8 left-10 z-10">
+
+## Gradient — Cropped Pink
+
+</div>
 
 ---
 
@@ -409,3 +427,381 @@ class: blue-dark
   size="500px"
   :steps="10"
 />
+
+---
+
+## Filled — Alignment Directions
+
+<div class="grid grid-cols-3 gap-4">
+  <div class="text-center">
+    <BrandShape from="organic-1" to="organic-3" scheme="lime" variant="filled" align="left" :spread="1" size="240px" :steps="8" />
+    <p class="text-sm mt-2">align=left</p>
+  </div>
+  <div class="text-center">
+    <BrandShape from="organic-1" to="organic-3" scheme="pink" variant="filled" align="right" :spread="1" size="240px" :steps="8" />
+    <p class="text-sm mt-2">align=right</p>
+  </div>
+  <div class="text-center">
+    <BrandShape from="organic-1" to="organic-3" scheme="blue" variant="filled" align="top" :spread="1" size="240px" :steps="8" />
+    <p class="text-sm mt-2">align=top</p>
+  </div>
+  <div class="text-center">
+    <BrandShape from="organic-1" to="organic-3" scheme="vermillion" variant="filled" align="bottom" :spread="1" size="240px" :steps="8" />
+    <p class="text-sm mt-2">align=bottom</p>
+  </div>
+  <div class="text-center">
+    <BrandShape from="organic-1" to="organic-3" scheme="brown" variant="filled" align="center" :spread="1" size="240px" :steps="8" />
+    <p class="text-sm mt-2">align=center</p>
+  </div>
+</div>
+
+---
+
+## Filled — Spread Intensity
+
+<div class="grid grid-cols-3 gap-4">
+  <div class="text-center">
+    <BrandShape from="primitive-2" to="angular-3" scheme="lime" variant="filled" align="left" :spread="0.5" size="240px" :steps="10" />
+    <p class="text-sm mt-2">spread=0.5 (tight)</p>
+  </div>
+  <div class="text-center">
+    <BrandShape from="primitive-2" to="angular-3" scheme="lime" variant="filled" align="left" :spread="1" size="240px" :steps="10" />
+    <p class="text-sm mt-2">spread=1 (default)</p>
+  </div>
+  <div class="text-center">
+    <BrandShape from="primitive-2" to="angular-3" scheme="lime" variant="filled" align="left" :spread="2" size="240px" :steps="10" />
+    <p class="text-sm mt-2">spread=2 (wide)</p>
+  </div>
+</div>
+
+---
+
+## Layout Demos
+
+The following slides showcase the brand layout system.
+
+---
+layout: diptych
+scheme: blue
+from: organic-2
+to: organic-3
+---
+
+---
+layout: diptych
+scheme: vermillion
+from: primitive-2
+to: angular-3
+---
+
+---
+layout: hero
+scheme: blue
+from: organic-2
+to: organic-3
+---
+
+# Catalyst
+
+## of change
+
+---
+layout: hero
+scheme: pink
+from: organic-1
+to: angular-2
+---
+
+# Innovation
+
+## partners
+
+---
+layout: brand-left
+scheme: blue
+from: organic-2
+to: organic-3
+variant: wireframe
+---
+
+# Studio Profile
+
+We develop powerful services for the public and the people who serve it.
+
+- Service design
+- Digital transformation
+- Research & strategy
+
+---
+layout: brand-left
+scheme: vermillion
+from: primitive-1
+to: angular-2
+variant: filled
+---
+
+# Our Capabilities
+
+Building products and services that create lasting impact for communities across Australia.
+
+---
+layout: brand-right
+scheme: pink
+from: organic-1
+to: organic-3
+variant: filled
+---
+
+# Our Team
+
+A multidisciplinary studio of designers, researchers, and technologists working together.
+
+---
+layout: brand-right
+scheme: lime
+from: angular-1
+to: angular-3
+variant: wireframe
+split: narrow
+---
+
+# Partnership
+
+We work alongside government and community organisations to co-design solutions that matter.
+
+---
+layout: triptych
+scheme: pink
+from: organic-2
+to: angular-1
+---
+
+<template #right>
+  <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+    Photo slot
+  </div>
+</template>
+
+---
+layout: triptych
+scheme: lime
+from: organic-1
+to: organic-3
+split: weighted
+---
+
+Modern wayfinding has to support our increasingly complex everyday life.
+
+---
+layout: image-left
+image: https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800
+---
+
+# Empowering people to make change
+
+We partner with organisations to design services that are accessible, effective, and human-centered.
+
+---
+layout: image-right
+image: https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800
+---
+
+# Working Together
+
+Our approach combines deep research with hands-on design to deliver outcomes that matter.
+
+---
+layout: section
+---
+
+# Portable Theme
+### A programmable brand system for Slidev
+
+---
+layout: brand-left
+scheme: lime
+from: primitive-1
+to: organic-3
+variant: filled
+---
+
+# The BrandShape Component
+
+12 base shapes. 5 colour families. Morphing, gradients, noise — all from markup.
+
+<div class="mt-4">
+
+```html
+<BrandShape
+  from="primitive-1"
+  to="organic-3"
+  scheme="lime"
+  variant="filled"
+  :steps="10"
+/>
+```
+
+</div>
+
+---
+
+## Colour Schemes
+
+<div class="grid grid-cols-2 gap-8">
+<div>
+
+Every shape takes a `scheme` — one of the five brand colour families. Each scheme maps to **dark** (current), **mid** (catalyst), and **light** (future).
+
+```html
+<BrandShape scheme="pink" ... />
+<BrandShape scheme="blue" ... />
+<BrandShape scheme="vermillion" ... />
+```
+
+Or go cross-family:
+
+```html
+<BrandShape
+  current="pink-dark"
+  catalyst="lime"
+  future="blue-light"
+/>
+```
+
+</div>
+<div class="flex flex-wrap gap-3 items-start">
+  <BrandShape from="organic-1" to="organic-3" scheme="lime" variant="filled" size="180px" :steps="8" />
+  <BrandShape from="organic-1" to="organic-3" scheme="pink" variant="filled" size="180px" :steps="8" />
+  <BrandShape from="organic-1" to="organic-3" scheme="blue" variant="filled" size="180px" :steps="8" />
+  <BrandShape from="organic-1" to="organic-3" scheme="vermillion" variant="filled" size="180px" :steps="8" />
+</div>
+</div>
+
+---
+
+## Three Variants
+
+<div class="grid grid-cols-3 gap-6">
+<div class="text-center">
+  <BrandShape from="organic-2" to="angular-1" scheme="blue" variant="wireframe" size="250px" :steps="8" />
+
+**wireframe** — stroked outlines
+
+```html
+variant="wireframe"
+```
+
+</div>
+<div class="text-center">
+  <BrandShape from="organic-2" to="angular-1" scheme="blue" variant="filled" size="250px" :steps="8" />
+
+**filled** — conic gradient layers
+
+```html
+variant="filled"
+```
+
+</div>
+<div class="text-center">
+  <BrandShape from="organic-2" to="angular-1" scheme="blue" variant="gradient" size="250px" :steps="8" :crop="true" />
+
+**gradient** — hero backgrounds
+
+```html
+variant="gradient" :crop="true"
+```
+
+</div>
+</div>
+
+---
+
+## Morph Shapes
+
+<div class="grid grid-cols-2 gap-8">
+<div>
+
+12 base shapes across three families: **primitive**, **organic**, and **angular**.
+
+The `from` and `to` props pick the start and end shapes. The component generates smooth morph steps between them.
+
+```html
+<BrandShape
+  from="primitive-2"
+  to="angular-4"
+  :steps="10"
+/>
+```
+
+Steps are clamped to 5–15 per brand rules.
+
+</div>
+<div class="flex flex-col gap-3">
+  <div class="flex gap-3">
+    <BrandShape from="primitive-1" to="primitive-1" scheme="lime" variant="wireframe" size="120px" :steps="5" />
+    <BrandShape from="organic-1" to="organic-1" scheme="pink" variant="wireframe" size="120px" :steps="5" />
+    <BrandShape from="angular-1" to="angular-1" scheme="blue" variant="wireframe" size="120px" :steps="5" />
+  </div>
+  <BrandShape from="primitive-2" to="angular-4" scheme="vermillion" variant="filled" size="280px" :steps="10" />
+</div>
+</div>
+
+---
+
+## Brand Layouts
+
+<div class="grid grid-cols-2 gap-8">
+<div>
+
+Custom Slidev layouts encode the brand's composition rules — diptych juxtaposition, triptychs, hero treatments.
+
+```yaml
+---
+layout: hero
+scheme: blue
+from: organic-2
+to: organic-3
+---
+
+# Catalyst
+## of change
+```
+
+Available: `diptych`, `triptych`, `hero`, `brand-left`, `brand-right`, `image-left`, `image-right`
+
+</div>
+<div>
+
+```yaml
+---
+layout: brand-left
+scheme: pink
+variant: filled
+---
+
+# Title here
+
+Content in the right panel.
+```
+
+```yaml
+---
+layout: diptych
+scheme: vermillion
+from: primitive-2
+to: angular-3
+---
+```
+
+</div>
+</div>
+
+---
+layout: hero
+scheme: lime
+from: organic-1
+to: angular-2
+---
+
+# Built with
+## TypeScript + Vue + SVG
