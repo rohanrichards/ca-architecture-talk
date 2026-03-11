@@ -32,12 +32,15 @@ export function buildGradientDef(options: GradientOptions): string {
 
 /**
  * Subtle film grain noise filter.
+ * Uses feComposite to clip the noise to the shape's alpha channel,
+ * so it doesn't spill outside the path as a rectangle.
  */
 export function buildNoiseDef(id: string): string {
   return `<filter id="${id}" x="0%" y="0%" width="100%" height="100%">
   <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise" />
   <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise" />
   <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="noisy" />
+  <feComposite in="noisy" in2="SourceGraphic" operator="in" />
 </filter>`
 }
 

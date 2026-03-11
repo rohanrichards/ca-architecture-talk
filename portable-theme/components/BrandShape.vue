@@ -59,7 +59,7 @@ const morphResult = computed(() => {
   )
 })
 
-const staticPaths = computed(() => morphResult.value.steps)
+const allPaths = computed(() => morphResult.value.steps)
 
 // SVG defs
 const gradientSvg = computed(() =>
@@ -68,41 +68,45 @@ const gradientSvg = computed(() =>
 const noiseSvg = computed(() => props.noise ? buildNoiseDef(`noise-${uid}`) : '')
 const blurSvg = computed(() => props.blur ? buildBlurDef(`blur-${uid}`) : '')
 
-// Animation state
-const animatedPath = ref('')
-const isAnimating = ref(false)
-const showStatic = ref(true)
+// Animation state: how many steps are currently visible
+// For static mode, all steps are visible immediately
+// For animated mode, steps are progressively revealed
+const visibleStepCount = ref(props.animate ? 0 : allPaths.value.length)
+const animationComplete = ref(!props.animate)
 
 function startAnimation() {
-  if (isAnimating.value) return
-  isAnimating.value = true
-  showStatic.value = false
+  if (visibleStepCount.value > 0 && visibleStepCount.value < allPaths.value.length) return // already running
 
-  const interpolator = morphResult.value.interpolator
-  const start = performance.now()
+  visibleStepCount.value = 0
+  animationComplete.value = false
 
-  function frame(now: number) {
-    const elapsed = now - start
-    const t = Math.min(elapsed / props.duration, 1)
-    const eased = t < 0.5
-      ? 2 * t * t
-      : 1 - Math.pow(-2 * t + 2, 2) / 2
+  const totalSteps = allPaths.value.length
+  const stepDuration = props.duration / totalSteps
+  let currentStep = 0
 
-    animatedPath.value = interpolator(eased)
+  function revealNext() {
+    currentStep++
+    visibleStepCount.value = currentStep
 
-    if (t < 1) {
-      requestAnimationFrame(frame)
+    if (currentStep < totalSteps) {
+      setTimeout(revealNext, stepDuration)
     } else {
-      isAnimating.value = false
+      animationComplete.value = true
     }
   }
 
-  requestAnimationFrame(frame)
+  // Start with a small delay so the empty state is visible briefly
+  setTimeout(revealNext, stepDuration * 0.5)
 }
 
 onMounted(() => {
   if (props.animate && props.trigger === 'enter') {
     startAnimation()
+  }
+  // For non-animated mode, ensure all steps visible
+  if (!props.animate) {
+    visibleStepCount.value = allPaths.value.length
+    animationComplete.value = true
   }
 })
 
@@ -112,10 +116,15 @@ function handleClick() {
   }
 }
 
-// Combined filter ref — apply noise to filled shapes, blur to edges
+// Filter ref for filled shapes
 const filterRef = computed(() => {
   if (props.noise) return `url(#noise-${uid})`
   return undefined
+})
+
+// Visible paths based on animation progress
+const visiblePaths = computed(() => {
+  return allPaths.value.slice(0, visibleStepCount.value)
 })
 
 // Use a viewBox large enough for all shapes
@@ -137,49 +146,34 @@ const viewBox = '-10 -15 210 180'
     >
       <defs v-html="gradientSvg + noiseSvg + blurSvg" />
 
-      <!-- Static wireframe mode: all morph steps as stroked outlines -->
-      <template v-if="showStatic">
-        <path
-          v-for="(pathD, i) in staticPaths"
-          :key="'stroke-' + i"
-          :d="pathD"
-          fill="none"
-          :stroke="`url(#grad-${uid})`"
-          :stroke-width="1.2"
-          :opacity="0.2 + (0.8 * i / Math.max(staticPaths.length - 1, 1))"
-        />
-        <!-- First and last shapes with subtle fill -->
-        <path
-          :d="staticPaths[0]"
-          :fill="`url(#grad-${uid})`"
-          :opacity="0.1"
-          :filter="filterRef"
-        />
-        <path
-          :d="staticPaths[staticPaths.length - 1]"
-          :fill="`url(#grad-${uid})`"
-          :opacity="0.15"
-          :filter="filterRef"
-        />
-      </template>
+      <!-- Wireframe: stroked outlines for each visible step -->
+      <path
+        v-for="(pathD, i) in visiblePaths"
+        :key="'stroke-' + i"
+        :d="pathD"
+        fill="none"
+        :stroke="`url(#grad-${uid})`"
+        :stroke-width="1.2"
+        :opacity="0.2 + (0.8 * i / Math.max(allPaths.length - 1, 1))"
+      />
 
-      <!-- Animated mode: single morphing path -->
-      <template v-if="isAnimating">
-        <path
-          :d="animatedPath"
-          :fill="`url(#grad-${uid})`"
-          :filter="filterRef"
-        />
-      </template>
+      <!-- Subtle fill on first visible shape -->
+      <path
+        v-if="visiblePaths.length > 0"
+        :d="visiblePaths[0]"
+        :fill="`url(#grad-${uid})`"
+        :opacity="0.1"
+        :filter="filterRef"
+      />
 
-      <!-- After animation: show final shape -->
-      <template v-if="animate && !isAnimating && !showStatic">
-        <path
-          :d="staticPaths[staticPaths.length - 1]"
-          :fill="`url(#grad-${uid})`"
-          :filter="filterRef"
-        />
-      </template>
+      <!-- Subtle fill on last visible shape (builds up as animation progresses) -->
+      <path
+        v-if="visiblePaths.length > 1"
+        :d="visiblePaths[visiblePaths.length - 1]"
+        :fill="`url(#grad-${uid})`"
+        :opacity="0.15"
+        :filter="filterRef"
+      />
     </svg>
   </div>
 </template>
