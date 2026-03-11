@@ -35,6 +35,10 @@ A chartered accountants body (AU/NZ) monitors ~20+ regulatory and news sources f
 
 </v-clicks>
 
+<!--
+Tech head/lead has already greenlit use of AI
+-->
+
 ---
 
 # The Core Workflow
@@ -210,6 +214,13 @@ layout: section
 
 Three decision points, three different problems
 
+<!--
+These examples are the result of AI based research
+These are alternatives surfaced with no real research or experience
+I'm not an expert can't talk to the validity of these options
+They're here to just surface the idea of alternatives and encourage experimentation
+-->
+
 ---
 
 # Extraction
@@ -277,6 +288,10 @@ Three decision points, three different problems
 <div style="margin-top: 0.5rem; padding: 0.4rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-left: 3px solid #7c3aed; border-radius: 0 6px 6px 0; font-size: 0.75rem;">
   💬 Alternative pipeline: <strong>GLiNER</strong> (zero-shot entities) + <strong>spaCy EntityRuler</strong> (reg numbers, dates) + <strong>ReLiK</strong> (relationships). No training data needed.
 </div>
+
+<!--
+Named Entity Recognition (NER) is a subset of Natural Language Processing (NLP) in the field of Machine Learning (ML)
+-->
 
 ---
 
@@ -457,6 +472,10 @@ Why serverless over AgentCore
   </div>
 </div>
 
+<!--
+Fargate is AWS serverless compute
+-->
+
 ---
 
 # Why Not AgentCore?
@@ -478,7 +497,7 @@ AWS proposed AgentCore (Runtime, Gateway, Memory, Identity) + QuickSuite. The ca
 
 # The Review UI
 
-Conduct staff need a **work queue**, not a chatbot. Same UX pattern as content moderation tools.
+Same UX pattern as content moderation tools.
 
 <div style="display: flex; gap: 1rem; margin-top: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;">
   <div style="flex: 1; background: var(--gp-bg-surface); border: 1px solid var(--gp-border); border-radius: 10px; padding: 1.25rem;">
