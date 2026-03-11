@@ -65,10 +65,14 @@ interface GradientOptions {
 /**
  * SVG linear gradient approximating the angular/conic gradient
  * from the brand guidelines. Three-colour narrative with minimal catalyst.
+ *
+ * Uses userSpaceOnUse so all morph steps share the same gradient mapping
+ * (otherwise each step's bounding box creates a different gradient,
+ * breaking the consistent colour flow across the stacked layers).
  */
 export function buildGradientDef(options: GradientOptions): string {
   const { id, current, catalyst, future } = options
-  return `<linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+  return `<linearGradient id="${id}" x1="0" y1="0" x2="190" y2="160" gradientUnits="userSpaceOnUse">
   <stop offset="0" stop-color="${current}" />
   <stop offset="0.45" stop-color="${catalyst}" />
   <stop offset="0.55" stop-color="${catalyst}" />
@@ -78,14 +82,21 @@ export function buildGradientDef(options: GradientOptions): string {
 
 /**
  * Subtle film grain noise filter.
- * Uses feComposite to clip the noise to the shape's alpha channel,
- * so it doesn't spill outside the path as a rectangle.
+ * Very fine grain (baseFrequency 4.5+) mixed at low opacity via feColorMatrix.
+ * The noise is overlaid rather than multiplied, so it adds texture
+ * without washing out or desaturating the fill colours.
+ * Clipped to shape alpha via feComposite.
  */
 export function buildNoiseDef(id: string): string {
   return `<filter id="${id}" x="0%" y="0%" width="100%" height="100%">
-  <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise" />
+  <feTurbulence type="fractalNoise" baseFrequency="4.5" numOctaves="4" stitchTiles="stitch" result="noise" />
   <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise" />
-  <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="noisy" />
+  <feColorMatrix type="matrix" in="grayNoise" result="subtleNoise"
+    values="1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 0.12 0" />
+  <feBlend in="SourceGraphic" in2="subtleNoise" mode="overlay" result="noisy" />
   <feComposite in="noisy" in2="SourceGraphic" operator="in" />
 </filter>`
 }
